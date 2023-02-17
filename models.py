@@ -8,7 +8,7 @@ import datetime
 
 load_dotenv()
 user = os.getenv('DB_USER')
-password = os.getenv('DB_PASSWORD') 
+password = os.getenv('DB_PASSWORD')
 app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://{0}:{1}@localhost:5432/housenet'.format(user, password)
 db = SQLAlchemy(app)
 
@@ -43,12 +43,27 @@ class User(db.Model):
 	profile_pic = db.Column(db.String)
 	about_me = db.Column(db.String)
 
-	 
 	def __init__(self, username, password, email, role):
 		self.username = username
 		self.password = password
 		self.email = email
 		self.role = role
+
+	def to_dict(self):
+		 return dict({
+			"id" : self.id,
+			"username" : self.username,
+			"password" : self.password,
+			"email" : self.email,
+			"role" : self.role.value,
+			"city" : self.city,
+			"state" : self.state,
+			"gender" : self.gender.value,
+			"age" : self.age,
+			"phone" : self.phone,
+			"profile_pic" : self.profile_pic,
+			"about_me" : self.about_me,
+		 })
 
 	def __repr__(self):
 		return '<User %r>' % self.username
@@ -88,7 +103,25 @@ class House(db.Model):
 		self.sq_ft = sq_ft
 		self.other_information = other_information
 
-	
+	def to_dict(self):
+		 return dict({
+			"id" : self.id,
+			"landlord_id" : self.landlord_id,
+			"landlord" : self.landlord,
+			"tenant_id" : self.tenant_id,
+			"tenant" : self.tenant,
+			"address" : self.address,
+			"city" : self.city,
+			"state" : self.state,
+			"zip_code" : self.zip_code,
+			"google_maps_link" : self.google_maps_link,
+			"status" : self.status.value,
+			"beds" : self.beds,
+			"baths" : self.baths,
+			"sq_ft" : self.sq_ft,
+			"other_information" : self.other_information
+		 })
+
 class HouseLease(db.Model):
 	__tablename__ = 'house_lease'
 	id = db.Column(db.Integer, primary_key=True)
@@ -114,6 +147,21 @@ class HouseLease(db.Model):
 		self.lease_type = lease_type
 		self.lease_file = lease_file
 
+	def to_dict(self):
+		 return dict({
+			"id" : self.id,
+			"house_id" : self.house_id,
+			"house" : self.house,
+			"tenant_id" : self.tenant_id,
+			"tenant" : self.tenant,
+			"start_date" : self.start_date,
+			"end_date" : self.end_date,
+			"rent" : self.rent,
+			"lease_length" : self.lease_length,
+			"lease_type" : self.lease_type,
+			"lease_file" : self.lease_file
+		 })
+
 class HouseImage(db.Model):
 	__tablename__ = 'house_image'
 	id = db.Column(db.Integer, primary_key=True)
@@ -125,6 +173,15 @@ class HouseImage(db.Model):
 	def __init__(self, house_id, image):
 		self.house_id = house_id
 		self.image = image
+
+	def to_dict(self):
+		 return dict({
+			"id" : self.id,
+			"house_id" : self.house_id,
+			"house" : self.house,
+			"image" : self.image,
+			"priority" : self.priority
+		 })
 
 class HouseReview(db.Model):
 	__tablename__ = 'house_review'
@@ -145,6 +202,19 @@ class HouseReview(db.Model):
 		self.review = review
 		self.rating = rating
 
+	def to_dict(self):
+		 return dict({
+			"id" : self.id,
+			"house_id" : self.house_id,
+			"house" : self.house,
+			"tenant_id" : self.tenant_id,
+			"tenant" : self.tenant,
+			"landlord_id" : self.landlord_id,
+			"landloard" : self.landlord,
+			"review" : self.review,
+			"rating" : self.rating
+		 })
+
 class HouseRequest(db.Model):
 	__tablename__ = 'house_request'
 	id = db.Column(db.Integer, primary_key=True)
@@ -159,6 +229,17 @@ class HouseRequest(db.Model):
 		self.house_id = house_id
 		self.tenant_id = tenant_id
 		self.status = status
+
+	def to_dict(self):
+		 return dict({
+			"id" : self.id,
+			"house_id" : self.house_id,
+			"house" : self.house,
+			"tenant_id" : self.tenant_id,
+			"tenant" : self.tenant,
+			"status" : self.status,
+			"created_at" : self.created_at
+		 })
 
 class TypeOfChat(enum.Enum):
 	PRIVATE = 1
