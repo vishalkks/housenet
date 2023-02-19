@@ -1,5 +1,4 @@
 name: Docker
-
 on:
   push:
     branches: [ main ]
@@ -24,16 +23,8 @@ jobs:
     - name: Checkout repository
       uses: actions/checkout@v2
 
-    availableSecrets:
-      secretManager:
-      - versionName: projects/759378836146/secrets/DB_PASSWORD/versions/1
-        env: 'DB_PASSWORD'
-      - versionName: projects/759378836146/secrets/DB_PUBLIC_IP_ADDRESS
-        env: 'DB_PUBLIC_IP_ADDRESS'
-
     - name: Build Docker image
-      run: docker build . -t $IMAGE_NAME --build-arg DB_PASSWORD=${{ env.DB_PASSWORD }} --build-arg DB_PUBLIC_IP_ADDRESS=${{ env.DB_PUBLIC_IP_ADDRESS }}
-      secretEnv: ['DB_PASSWORD','DB_PUBLIC_IP_ADDRESS']
+      run: docker build . -t $IMAGE_NAME --build-arg DB_PASSWORD=${{ secrets.DB_PASSWORD }} --build-arg DB_PUBLIC_IP_ADDRESS=${{ secrets.DB_PUBLIC_IP_ADDRESS }}
 
     - name: Push Docker image
       run: docker push $IMAGE_NAME
