@@ -1,16 +1,10 @@
 import enum
-from app import app
-from sqlalchemy_utils import database_exists, create_database
 from flask_sqlalchemy import SQLAlchemy
 from dotenv import load_dotenv
 import os
 import datetime
 
-load_dotenv()
-user = os.getenv('DB_USER')
-password = os.getenv('DB_PASSWORD')
-app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://{0}:{1}@localhost:5432/housenet'.format(user, password)
-db = SQLAlchemy(app)
+db = SQLAlchemy()
 
 class Role(enum.Enum):
 	ADMIN = 1
@@ -50,7 +44,7 @@ class User(db.Model):
 		self.role = role
 
 	def to_dict(self):
-		 return dict({
+			return dict({
 			"id" : self.id,
 			"username" : self.username,
 			"password" : self.password,
@@ -63,7 +57,7 @@ class User(db.Model):
 			"phone" : self.phone,
 			"profile_pic" : self.profile_pic,
 			"about_me" : self.about_me,
-		 })
+			})
 
 	def __repr__(self):
 		return '<User %r>' % self.username
@@ -282,8 +276,3 @@ class Message(db.Model):
 		self.chat_id = chat_id
 		self.sender_id = sender_id
 		self.message = message
-
-with app.app_context():
-	if not database_exists(app.config['SQLALCHEMY_DATABASE_URI']):
-		create_database(app.config['SQLALCHEMY_DATABASE_URI'])
-	db.create_all()
