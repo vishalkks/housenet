@@ -2,6 +2,8 @@
 from flask import Flask, render_template
 from flask_restful import Api, Resource
 import json
+
+import sqlalchemy
 from models import User, House, HouseLease, HouseImage, db
 from sqlalchemy_utils import database_exists, create_database
 from dotenv import load_dotenv
@@ -24,13 +26,25 @@ def create_app(dev):
 		DBNAME = os.getenv('DB_NAME')
 		PUBLIC_IP_ADDRESS = os.getenv('DB_PUBLIC_IP_ADDRESS')
 		PROJECT_ID = os.getenv('PROJECT_ID')
-		INSTANCE_NAME = os.getenv('INSTANCE_NAME')
+		DB_INSTANCE_NAME = os.getenv('DB_INSTANCE_NAME')
 
-		app.config["SQLALCHEMY_DATABASE_URI"]= f"postgresql://{USERNAME}:{PASSWORD}@{PUBLIC_IP_ADDRESS}/{DBNAME}?unix_socket =/cloudsql/{PROJECT_ID}:{INSTANCE_NAME}"
+		
+		uri = sqlalchemy.engine.url.URL(
+			drivername="postgresql+psycopg2",
+			username=USERNAME,
+			password=PASSWORD,
+			host=PUBLIC_IP_ADDRESS,
+			port=5432,
+			database=DBNAME,
+			query=""
+		)
+
+		app.config['SQLALCHEMY_DATABASE_URI'] = uri.render_as_string(hide_password=False)
+		#app.config["SQLALCHEMY_DATABASE_URI"]= f"postgresql://{USERNAME}:{PASSWORD}@{PUBLIC_IP_ADDRESS}/{DBNAME}?host=/cloudsql/{DB_INSTANCE_NAME}"
 		app.config["SQLALCHEMY_TRACK_MODIFICATIONS"]= True
 		user = os.getenv('DB_USER')
 		password = os.getenv('DB_PASSWORD')
-		app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://{0}:{1}@localhost:5432/housenet'.format(user, password)
+		#app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://{0}:{1}@localhost:5432/housenet'.format(user, password)
 	db.init_app(app)
 
 	with app.app_context():
