@@ -2,7 +2,6 @@
 from flask import Flask, render_template
 from flask_restful import Api, Resource
 import json
-from config import app
 from models import User, House, HouseLease, HouseImage, db
 from sqlalchemy_utils import database_exists, create_database
 from dotenv import load_dotenv
@@ -10,7 +9,7 @@ import os
 import argparse
 
 def create_app(dev):
-	app = Flask(__name__)
+	app = Flask(__name__, template_folder="templates")
 
 	load_dotenv()
 	if dev:
@@ -90,3 +89,4 @@ if __name__ == '__main__':
 			return render_template('home.html')
 
 	api.add_resource(HomeAPI, '/')
+	app.run(port=8080)
