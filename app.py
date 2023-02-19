@@ -26,18 +26,18 @@ def create_app(dev):
 		DBNAME = os.getenv('DB_NAME')
 		PUBLIC_IP_ADDRESS = os.getenv('DB_PUBLIC_IP_ADDRESS')
 		PROJECT_ID = os.getenv('PROJECT_ID')
-		DB_INSTANCE_NAME = os.getenv('DB_INSTANCE_NAME')
+		INSTANCE_UNIX_SOCKET = os.getenv('INSTANCE_UNIX_SOCKET')
 
 		
 		uri = sqlalchemy.engine.url.URL(
-			drivername="postgresql+psycopg2",
-			username=USERNAME,
-			password=PASSWORD,
-			host=PUBLIC_IP_ADDRESS,
-			port=5432,
-			database=DBNAME,
-			query=""
-		)
+            drivername="postgresql+psycopg2",
+            username=USERNAME,
+            password=PASSWORD,
+            database=DBNAME,
+            query={"host": INSTANCE_UNIX_SOCKET},
+			host=None,
+			port=None
+        )
 
 		app.config['SQLALCHEMY_DATABASE_URI'] = uri.render_as_string(hide_password=False)
 		#app.config["SQLALCHEMY_DATABASE_URI"]= f"postgresql://{USERNAME}:{PASSWORD}@{PUBLIC_IP_ADDRESS}/{DBNAME}?host=/cloudsql/{DB_INSTANCE_NAME}"
