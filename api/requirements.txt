@@ -1,6 +1,7 @@
 Flask
 Flask-RESTful
 Flask-SQLAlchemy
+Flask-Migrate
 greenlet==2.0.2
 idna==3.4
 importlib-metadata==6.0.0
