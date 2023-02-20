@@ -11,8 +11,11 @@ import os
 import argparse
 import sys
 
+app = Flask(__name__, static_folder="../build",  static_url_path='/', template_folder='../app/static/build/')
+
 def create_app(dev):
-	app = Flask(__name__, template_folder="templates")
+	#app = Flask(__name__, static_folder="static/dist", template_folder="static")
+	app = Flask(__name__, static_folder="../build",  static_url_path='/', template_folder='../app/static/build/')
 
 	load_dotenv()
 	if dev:
@@ -61,6 +64,10 @@ if len(sys.argv) > 1:
 app = create_app(dev)
 
 api = Api(app)
+
+@app.route("/")
+def index():
+    return render_template("index.html")
 
 # Return JSON of all users
 @app.route('/users')
