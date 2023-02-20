@@ -24,7 +24,7 @@ RUN apt install -y build-essential
 RUN apt-get -y install libpq-dev
 
 RUN mkdir ./api
-COPY requirements.txt /api api/
+COPY /api api/
 RUN pip install -r ./api/requirements.txt
 
 # Set $PORT environment variable
