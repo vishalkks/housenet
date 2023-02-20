@@ -31,3 +31,6 @@ jobs:
 
     - name: Deploy Docker image
       run: gcloud run deploy ${{ secrets.GCP_PROJECT_ID }} --image $IMAGE_NAME --region us-west1 --platform managed --set-env-vars DB_PASSWORD=${{ secrets.DB_PASSWORD }},DB_PUBLIC_IP_ADDRESS=${{ secrets.DB_PUBLIC_IP_ADDRESS }}
+
+beta_settings:
+  cloud_sql_instances: housenet:us-central1:housenet-sql
