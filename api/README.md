@@ -1,20 +1,27 @@
 # housenet-backend
-## Getting Started
-> - Download postgresql
+## Developer Getting Started
+> - Download postgresql and configure a database with the name <code>housenet</code> and create a user for the database with corresponding credentials to that of the <code>DB_USERNAME</code> and <code>DB_PASSWORD</code> in the .env file.
 >
-> - Configure the .env file with user and user password
 >
-> - Download relevant packages using pip
->
-> - Run application using python3 -m flask run
+> - Download relevant packages using <code> pip install -r requirements.txt </code>
+> - Set <code>DEV</code> in .env to <code>True</code> (IMPORTANT TO SET IT BACK TO FALSE WHEN MERGING INTO MAIN)
+> - Run application using <code>flask run</code>
 
 ## Interacting with the database
-> - run <code> flask shell </code> in your directory holding this repository
+> - run <code>flash shell</code> in your directory holding this repository
 > - create specified class object of your choosing. i.e. <code> user_ethan = User(username='ethan', password='password', email='ettan@ucsd.edu', role='ADMIN') </code>
 > - Add class object to your database session. i.e. <code> db.session.add(user_ethan) </code>
 > - Commit class object to the database and apply changes to the database through command <code> db.session.commit() </code>
 
+## Changing Database Structure
+In the case of updating tables by adding columns in models.py, due to the functiaonlity of Flask, there will be a need to migrate tables to gaurantee that tables are correctly updated. In the case that you indeed made a change to the models, make sure you run these commands in order:
+> - <code> flask db init </code> (you only have to do this once so that the migrations folder is in your directory)
+> - <code> flask db migrate </code> to generate a migration file
+> - <code> flask db upgrade </code> to update the current database to the new database. (note that this needs to be done to every copy of the database when the new code is merged, i.e. on each dev machine, prod machine)
+
 ## CI/CD Deployment with Google Cloud Run
+** Note that CI/CD Deployment with Google Cloud is already setup, and the steps below are for reference how to do it in the future.
+
 ### Manual deployment
 > - verify that you have docker and google clouds CLI installed
 > - run <code>docker build .</code> (if on mac m1, need to run <code> docker buildx build --platform linux/amd64 . </code>)
