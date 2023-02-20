@@ -11,11 +11,10 @@ import os
 import argparse
 import sys
 
-app = Flask(__name__, static_folder="../build",  static_url_path='/', template_folder='../app/static/build/')
+app = Flask(__name__, static_folder="../build",  static_url_path='/')
 
 def create_app(dev):
 	#app = Flask(__name__, static_folder="static/dist", template_folder="static")
-	app = Flask(__name__, static_folder="../build",  static_url_path='/', template_folder='../app/static/build/')
 
 	load_dotenv()
 	if dev:
@@ -67,7 +66,7 @@ api = Api(app)
 
 @app.route("/")
 def index():
-    return render_template("index.html")
+    return app.send_static_file('index.html')
 
 # Return JSON of all users
 @app.route('/users')
