@@ -9,12 +9,13 @@ from sqlalchemy_utils import database_exists, create_database
 from dotenv import load_dotenv
 import os
 import argparse
+import sys
 
-def create_app(dev):
+def create_app(prod):
 	app = Flask(__name__, template_folder="templates")
 
 	load_dotenv()
-	if dev:
+	if not prod:
 		user = os.getenv('DB_USERNAME')
 		password = os.getenv('DEV_PASSWORD')
 		DBNAME = os.getenv('DB_NAME')
@@ -55,10 +56,10 @@ def create_app(dev):
 
 
 if __name__ == '__main__':
-	parser = argparse.ArgumentParser()
-	parser.add_argument('--dev', action='store_true')
-	args = parser.parse_args()
-	app = create_app(args.dev)
+	prod = False
+	if len(sys.argv) > 1:
+		prod = sys.argv[1] == 'prod'
+	app = create_app(prod)
 	
 	api = Api(app)
 
