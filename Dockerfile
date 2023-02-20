@@ -1,25 +1,19 @@
-FROM ubuntu:20.04
+FROM python:3.8.0-slim
 
-
-ENV PORT 8080
-ENV HOST 127.0.0.1
-
-EXPOSE 8080
-
-RUN apt-get update && apt install software-properties-common -y
-RUN add-apt-repository ppa:deadsnakes/ppa -y
-RUN apt update && \
-    apt install -y python3.9 python3-pip 
-RUN apt-get -y install libpq-dev
-
-COPY ./requirements.txt /app/requirements.txt
-
-WORKDIR /app
-
-RUN pip3 install -r requirements.txt
-
+# Copy local code to the container image
 COPY . /app
 
-ENTRYPOINT [ "python3" ]
+# Sets the working directory
+WORKDIR /app
 
-CMD [ "app.py", "prod", "&" ]
+# Upgrade PIP
+RUN pip install --upgrade pip
+
+#Install python libraries from requirements.txt
+RUN pip install --no-cache-dir -r requirements.txt
+
+# Set $PORT environment variable
+ENV PORT 8080
+
+# Run the web service on container startup
+CMD exec gunicorn --bind :$PORT --workers 1 --threads 8 --timeout 0 app:app

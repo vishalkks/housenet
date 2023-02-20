@@ -11,11 +11,11 @@ import os
 import argparse
 import sys
 
-def create_app(prod):
+def create_app(dev):
 	app = Flask(__name__, template_folder="templates")
 
 	load_dotenv()
-	if not prod:
+	if dev:
 		user = os.getenv('DB_USERNAME')
 		password = os.getenv('DEV_PASSWORD')
 		DBNAME = os.getenv('DB_NAME')
@@ -56,10 +56,10 @@ def create_app(prod):
 
 
 if __name__ == '__main__':
-	prod = False
+	dev = False
 	if len(sys.argv) > 1:
-		prod = sys.argv[1] == 'prod'
-	app = create_app(prod)
+		dev = sys.argv[1] == 'dev'
+	app = create_app(dev)
 	
 	api = Api(app)
 
@@ -104,4 +104,4 @@ if __name__ == '__main__':
 			return render_template('home.html')
 
 	api.add_resource(HomeAPI, '/')
-	app.run(port=8080)
+	app.run(debug=True, host="0.0.0.0", port=int(os.environ.get("PORT", 8080)))
