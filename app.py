@@ -80,7 +80,6 @@ def house(house_id):
 
 @app.route('/houses', methods=['POST'])
 def create_house():
-	print("hello world")
 	house = House(
 		landlord_id=request.json['landlord_id'],
 		address=request.json['address'],
