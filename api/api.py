@@ -1,6 +1,7 @@
 #/opt/conda/bin/python3
-from flask import Flask, render_template
-from flask_restful import Api, Resource, reqparse
+from flask import Flask, request, render_template
+from flask_restful import Api, Resource,reqparse
+from flask_migrate import Migrate
 import json
 
 import sqlalchemy
@@ -30,7 +31,6 @@ def create_app(dev):
 		PROJECT_ID = os.getenv('PROJECT_ID')
 		INSTANCE_UNIX_SOCKET = os.getenv('INSTANCE_UNIX_SOCKET')
 
-		
 		uri = sqlalchemy.engine.url.URL(
             drivername="postgresql+psycopg2",
             username=USERNAME,
@@ -48,19 +48,12 @@ def create_app(dev):
 		password = os.getenv('DB_PASSWORD')
 		#app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://{0}:{1}@localhost:5432/housenet'.format(user, password)
 	db.init_app(app)
+	migrate.init_app(app,db)
 
-	with app.app_context():
-		if not database_exists(app.config['SQLALCHEMY_DATABASE_URI']):
-			create_database(app.config['SQLALCHEMY_DATABASE_URI'])
-		db.create_all()
 	return app
 
-
-dev = False
-if len(sys.argv) > 1:
-	dev = sys.argv[1] == 'dev'
-app = create_app(dev)
-
+migrate = Migrate()
+app = create_app(os.getenv('DEV'))
 api = Api(app)
 
 @app.route("/")
@@ -84,6 +77,32 @@ def houses():
 	for house in houses:
 		house_list.append(house.to_dict())
 	return json.dumps(house_list)
+
+@app.route('/houses/<int:house_id>')
+def house(house_id):
+	house = House.query.filter_by(id=house_id).first()
+	return json.dumps(house.to_dict())
+
+@app.route('/houses', methods=['POST'])
+def create_house():
+	house = House(
+		landlord_id=request.json['landlord_id'],
+		address=request.json['address'],
+		city=request.json['city'],
+		state=request.json['state'],
+		zip_code=request.json['zip_code'],
+		google_maps_link=request.json['google_maps_link'],
+		status=request.json['status'],
+		beds=request.json['beds'],
+		baths=request.json['baths'],
+		sq_ft=request.json['sq_ft'],
+		rent=request.json['rent'],
+		other_information=request.json['other_information']
+	)
+
+	db.session.add(house)
+	db.session.commit()
+	return json.dumps(house.to_dict())
 
 # Return JSON of all house leases
 @app.route('/house_leases')

@@ -96,9 +96,10 @@ class House(db.Model):
 	beds = db.Column(db.Integer)
 	baths = db.Column(db.Integer)
 	sq_ft = db.Column(db.Integer)
+	rent = db.Column(db.Float)
 	other_information = db.Column(db.JSON)
 
-	def __init__(self, landlord_id, address, city, state, zip_code, google_maps_link, status, beds, baths, sq_ft, other_information):
+	def __init__(self, landlord_id, address, city, state, zip_code, google_maps_link, status, beds, baths, sq_ft, rent, other_information):
 		self.landlord_id = landlord_id
 		self.address = address
 		self.city = city
@@ -109,6 +110,7 @@ class House(db.Model):
 		self.beds = beds
 		self.baths = baths
 		self.sq_ft = sq_ft
+		self.rent = rent
 		self.other_information = other_information
 
 	def to_dict(self):
@@ -127,6 +129,7 @@ class House(db.Model):
 			"beds" : self.beds,
 			"baths" : self.baths,
 			"sq_ft" : self.sq_ft,
+			"rent" : self.rent,
 			"other_information" : self.other_information
 		 })
 
