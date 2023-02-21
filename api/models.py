@@ -43,6 +43,20 @@ class User(db.Model):
 		self.email = email
 		self.role = role
 
+	def __init__(self, username, password, email, role, city, state, gender, age, phone, profile_pic, about_me):
+		self.username = username
+		self.password = password
+		self.email = email
+		self.role = role
+		self.city = city
+		self.state = state
+		self.gender = gender
+		self.age = age
+		self.phone = phone
+		self.profile_pic = profile_pic
+		self.about_me = about_me
+		
+
 	def to_dict(self):
 			return dict({
 			"id" : self.id,

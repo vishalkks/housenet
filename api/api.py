@@ -1,16 +1,15 @@
 #/opt/conda/bin/python3
 from flask import Flask, render_template
-from flask_restful import Api, Resource
+from flask_restful import Api, Resource, reqparse
 import json
 
 import sqlalchemy
-from models import User, House, HouseLease, HouseImage, db
+from models import User, House, HouseLease, HouseImage, db, Gender
 from sqlalchemy_utils import database_exists, create_database
 from dotenv import load_dotenv
 import os
 import argparse
 import sys
-
 app = Flask(__name__, static_folder="../build",  static_url_path='/')
 
 def create_app(dev):
@@ -108,7 +107,64 @@ class HomeAPI(Resource):
 	def get(self):
 		return render_template('home.html')
 
-api.add_resource(HomeAPI, '/')
+class SignupAPI(Resource):
 
+	def __init__(self):
+		self.reqparse = reqparse.RequestParser()
+		self.reqparse.add_argument('username', type=str, required=True, help='No username provided', location='json')
+		self.reqparse.add_argument('password', type=str, required=True, help='No password provided', location='json')
+		self.reqparse.add_argument('email', type=str, required=True, help='No email provided', location='json')
+		self.reqparse.add_argument('first_name', default='', type=str, required=False, help='No first name provided', location='json')
+		self.reqparse.add_argument('last_name',default='',type=str, required=False, help='No last name provided', location='json')
+		self.reqparse.add_argument('phone_number', default='',type=str, required=False, help='No phone number provided', location='json')
+		self.reqparse.add_argument('city', default='',type=str, required=False, help='No city provided', location='json')
+		self.reqparse.add_argument('state', default='',type=str, required=False, help='No state provided', location='json')
+		self.reqparse.add_argument('zip_code', default='',type=str, required=False, help='No zip code provided', location='json')
+		self.reqparse.add_argument('gender', default=None, type=Gender, required=False, help='no gender provided', location='json')
+		self.reqparse.add_argument('bio', default='', type=str, required=False, help='No bio provided', location='json')
+		self.reqparse.add_argument('profile_picture',default='', type=str, required=False, help='No profile picture provided', location='json')
+		super(SignupAPI, self).__init__()
+
+	def post(self):
+		args = self.reqparse.parse_args()
+		user = User(args['username'], args['password'], args['email'], args['role'], args['city'], args['state'], args['gender'],
+		args['age'], args['phone'],args['profile_pic'], args['bio'])
+		db.session.add(user)
+		db.session.commit()
+		return user.to_dict(), 201
+
+class LoginAPI(Resource):
+
+	def __init__(self):
+		self.reqparse = reqparse.RequestParser()
+		self.reqparse.add_argument('username', type=str, required=True, help='No username provided', location='json')
+		self.reqparse.add_argument('password', type=str, required=True, help='No password provided', location='json')
+		super(LoginAPI, self).__init__()
+
+	def post(self):
+		args = self.reqparse.parse_args()
+		userFromDB = User.query.filter_by(username=args['username']).first()
+		if userFromDB is None:
+			return "No user found", 404
+		if userFromDB.password != args['password']:
+			return "Incorrect password", 401
+		return userFromDB.to_dict(), 200
+
+	
+class UserGetAPI(Resource):
+
+	def __init__(self):
+		super(UserGetAPI, self).__init__()
+
+	def get(self, id):
+		userFiltered = User.query.filter_by(id=id)
+		if len(userFiltered) == 0:
+			return "No user found", 404
+		return userFiltered.first().to_dict(), 200
+
+api.add_resource(HomeAPI, '/')
+api.add_resource(SignupAPI, '/signup')
+api.add_resource(LoginAPI, '/login')
+api.add_resource(UserGetAPI, '/user/<int:id>')
 if __name__ == '__main__':
 	app.run(debug=True, host="0.0.0.0", port=int(os.environ.get("PORT", 8080)))
