@@ -18,7 +18,7 @@ def create_app():
 
 	load_dotenv()
 	dev = os.getenv('DEV')
-	if dev:
+	if dev.lower() == 'true':
 		user = os.getenv('DB_USERNAME')
 		password = os.getenv('DEV_PASSWORD')
 		DBNAME = os.getenv('DB_NAME')
