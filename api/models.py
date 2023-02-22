@@ -4,18 +4,21 @@ from dotenv import load_dotenv
 import os
 import datetime
 
+from sqlalchemy import Identity
+
 db = SQLAlchemy()
 
-class Role(enum.Enum):
-	ADMIN = 1
-	TENANT = 2
-	LANDLORD = 3
-	TENANT_LANDLORD = 4
+class User_Role(enum.Enum):
+	ADMIN = 'ADMIN'
+	TENANT = 'TENANT'
+	LANDLORD = 'LANDLORD'
+	TENANT_LANDLORD = 'TENANT_LANDLORD'
 
 class Gender(enum.Enum):
-	MALE = 1
-	FEMALE = 2
-	OTHER = 3
+	MALE = 'MALE'
+	FEMALE = 'FEMALE'
+	OTHER = 'OTHER'
+	NOT_PROVIDED = 'NOT_PROVIDED'
 
 class HouseRequestStatus(enum.Enum):
 	OPEN = 1
@@ -23,12 +26,12 @@ class HouseRequestStatus(enum.Enum):
 	ACCEPTED = 3
 
 class User(db.Model):
-	__tablename__ = 'user'
-	id = db.Column(db.Integer, primary_key=True)
+	__tablename__ = 'housenet_user'
+	id = db.Column(db.Integer, Identity(start=42, cycle=True), primary_key=True,)
 	username = db.Column(db.String)
 	password = db.Column(db.String)
 	email = db.Column(db.String)
-	role = db.Column(db.Enum(Role))
+	role = db.Column(db.Enum(User_Role))
 	city = db.Column(db.String)
 	state = db.Column(db.String)
 	gender = db.Column(db.Enum(Gender))
@@ -82,10 +85,10 @@ class HouseStatus(enum.Enum):
 
 class House(db.Model):
 	__tablename__ = 'house'
-	id = db.Column(db.Integer, primary_key=True)
-	landlord_id = db.Column(db.Integer, db.ForeignKey('user.id'))
+	id = db.Column(db.Integer,Identity(start=42, cycle=True), primary_key=True)
+	landlord_id = db.Column(db.Integer, db.ForeignKey('housenet_user.id'))
 	landlord = db.relationship('User', foreign_keys=[landlord_id])
-	tenant_id = db.Column(db.Integer, db.ForeignKey('user.id'))
+	tenant_id = db.Column(db.Integer, db.ForeignKey('housenet_user.id'))
 	tenant = db.relationship('User', foreign_keys=[tenant_id])
 	address = db.Column(db.String)
 	city = db.Column(db.String)
@@ -135,10 +138,10 @@ class House(db.Model):
 
 class HouseLease(db.Model):
 	__tablename__ = 'house_lease'
-	id = db.Column(db.Integer, primary_key=True)
+	id = db.Column(db.Integer,Identity(start=42, cycle=True), primary_key=True)
 	house_id = db.Column(db.Integer, db.ForeignKey('house.id'))
 	house = db.relationship('House', foreign_keys=[house_id])
-	tenant_id = db.Column(db.Integer, db.ForeignKey('user.id'))
+	tenant_id = db.Column(db.Integer, db.ForeignKey('housenet_user.id'))
 	tenant = db.relationship('User', foreign_keys=[tenant_id])
 	start_date = db.Column(db.Date)
 	end_date = db.Column(db.Date)
@@ -175,7 +178,7 @@ class HouseLease(db.Model):
 
 class HouseImage(db.Model):
 	__tablename__ = 'house_image'
-	id = db.Column(db.Integer, primary_key=True)
+	id = db.Column(db.Integer, Identity(start=42, cycle=True), primary_key=True)
 	house_id = db.Column(db.Integer, db.ForeignKey('house.id'))
 	house = db.relationship('House', foreign_keys=[house_id])
 	image = db.Column(db.String)
@@ -196,12 +199,12 @@ class HouseImage(db.Model):
 
 class HouseReview(db.Model):
 	__tablename__ = 'house_review'
-	id = db.Column(db.Integer, primary_key=True)
+	id = db.Column(db.Integer,Identity(start=42, cycle=True), primary_key=True)
 	house_id = db.Column(db.Integer, db.ForeignKey('house.id'))
 	house = db.relationship('House', foreign_keys=[house_id])
-	tenant_id = db.Column(db.Integer, db.ForeignKey('user.id'))
+	tenant_id = db.Column(db.Integer, db.ForeignKey('housenet_user.id'))
 	tenant = db.relationship('User', foreign_keys=[tenant_id])
-	landlord_id = db.Column(db.Integer, db.ForeignKey('user.id'))
+	landlord_id = db.Column(db.Integer, db.ForeignKey('housenet_user.id'))
 	landlord = db.relationship('User', foreign_keys=[landlord_id])
 	review = db.Column(db.String)
 	rating = db.Column(db.Integer)
@@ -228,10 +231,10 @@ class HouseReview(db.Model):
 
 class HouseRequest(db.Model):
 	__tablename__ = 'house_request'
-	id = db.Column(db.Integer, primary_key=True)
+	id = db.Column(db.Integer,Identity(start=42, cycle=True), primary_key=True)
 	house_id = db.Column(db.Integer, db.ForeignKey('house.id'))
 	house = db.relationship('House', foreign_keys=[house_id])
-	tenant_id = db.Column(db.Integer, db.ForeignKey('user.id'))
+	tenant_id = db.Column(db.Integer, db.ForeignKey('housenet_user.id'))
 	tenant = db.relationship('User', foreign_keys=[tenant_id])
 	status = db.Column(db.Enum(HouseRequestStatus))
 	created_at = db.Column(db.DateTime, default=datetime.datetime.utcnow)
@@ -258,7 +261,7 @@ class TypeOfChat(enum.Enum):
 
 class Chat(db.Model):
 	__tablename__ = 'chat'
-	id = db.Column(db.Integer, primary_key=True)
+	id = db.Column(db.Integer, Identity(start=42, cycle=True),primary_key=True)
 	name = db.Column(db.String)
 	typeOfChat = db.Column(db.Enum(TypeOfChat))
 
@@ -268,10 +271,10 @@ class Chat(db.Model):
 
 class Participant(db.Model):
 	__tablename__ = 'participant'
-	id = db.Column(db.Integer, primary_key=True)
+	id = db.Column(db.Integer,Identity(start=42, cycle=True), primary_key=True)
 	chat_id = db.Column(db.Integer, db.ForeignKey('chat.id'))
 	chat = db.relationship('Chat', foreign_keys=[chat_id])
-	user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
+	user_id = db.Column(db.Integer, db.ForeignKey('housenet_user.id'))
 	user = db.relationship('User', foreign_keys=[user_id])
 	active = db.Column(db.Boolean)
 
@@ -281,10 +284,10 @@ class Participant(db.Model):
 
 class Message(db.Model):
 	__tablename__ = 'message'
-	id = db.Column(db.Integer, primary_key=True)
+	id = db.Column(db.Integer,Identity(start=42, cycle=True), primary_key=True)
 	chat_id = db.Column(db.Integer, db.ForeignKey('chat.id'))
 	chat = db.relationship('Chat', foreign_keys=[chat_id])
-	sender_id = db.Column(db.Integer, db.ForeignKey('user.id'))
+	sender_id = db.Column(db.Integer, db.ForeignKey('housenet_user.id'))
 	sender = db.relationship('User', foreign_keys=[sender_id])
 	message = db.Column(db.String)
 	created_at = db.Column(db.DateTime, default=datetime.datetime.utcnow)

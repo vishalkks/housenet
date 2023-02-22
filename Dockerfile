@@ -32,4 +32,4 @@ ENV PORT 8080
 
 # Run the web service on container startup
 WORKDIR /app/api
-CMD exec gunicorn --bind :$PORT --workers 1 --threads 8 --timeout 0 api:app
+CMD exec gunicorn --bind :$PORT --workers 1 --threads 8 --timeout 0 app:app
