@@ -1,0 +1,98 @@
+[
+  {
+    "id": 1,
+    "image": "./static/1.jpg",
+    "price": "$3000/month",
+    "city": "Beverly Hills",
+    "location": "3346 Green Valley,Highland Lake.CA",
+    "beds": "5 Beds",
+    "wifi": "5G WIFI",
+    "bathrooms": "3 Bathrooms",
+    "smoking": "No Smoking",
+    "pets": "No Pets"
+  },
+  {
+    "id": 2,
+    "image": "./static/2.jpg",
+    "price": "$8000/month",
+    "city": "Los Angeles",
+    "location": "4354 Green Valley, Highland Lake, CA",
+    "beds": "6 Beds",
+    "wifi": "5G WIFI",
+    "bathrooms": "3 Bathrooms",
+    "smoking": "No Smoking",
+    "pets": "No Pets"
+  },
+  {
+    "id": 3,
+    "image": "./static/3.jpg",
+    "price": "$5000/month",
+    "city": "San Diego",
+    "location": "3869 Miramar St.La Jolla.CA",
+    "beds": "7 Beds",
+    "wifi": "5G WIFI",
+    "bathrooms": "4 Bathrooms",
+    "smoking": "No Smoking",
+    "pets": "No Pets"
+  },
+  {
+    "id": 4,
+    "image": "./static/4.jpg",
+    "price": "$5000/month",
+    "city": "Southern California",
+    "location": "3346 Green Valley, Highland Lake, CA",
+    "beds": "7 Beds",
+    "wifi": "5G WIFI",
+    "bathrooms": "3 Bathrooms",
+    "smoking": "No Smoking",
+    "pets": "No Pets"
+  },
+  {
+    "id": 5,
+    "image": "./static/5.jpg",
+    "price": "$3000/month",
+    "city": "Beverly Hills",
+    "location": "3346 Green Valley, Highland Lake, CA",
+    "beds": "3 Beds",
+    "wifi": "5G WIFI",
+    "bathrooms": "3 Bathrooms",
+    "smoking": "No Smoking",
+    "pets": "No Pets"
+  },
+  {
+    "id": 6,
+    "image": "./static/6.jpg",
+    "price": "$3000/month",
+    "city": "San Diego",
+    "location": "1234 Green Valley, Highland Lake, CA",
+    "beds": "5 Beds",
+    "wifi": "5G WIFI",
+    "bathrooms": "3 Bathrooms",
+    "smoking": "No Smoking",
+    "pets": "No Pets"
+  },
+  {
+    "id": 7,
+    "image": "./static/7.jpg",
+    "price": "$10000/month",
+    "city": "Beverly Hills",
+    "location": "3775 Green Valley,Highland Lake.CA",
+    "beds": "2 Beds",
+    "wifi": "5G WIFI",
+    "bathrooms": "1 Bathrooms",
+    "smoking": "Allow Smoking",
+    "pets": "Allow Pets"
+  },
+  {
+    "id": 8,
+    "image": "./static/8.jpg",
+    "price": "$15000/month",
+    "city": "San Francisco",
+    "location": "5759, Lambard Road, UC Berkeley.CA",
+    "beds": "12 Beds",
+    "wifi": "5G WIFI",
+    "bathrooms": "6 Bathrooms",
+    "smoking": "Allow Smoking",
+    "pets": "Allow Pets"
+  }
+]
