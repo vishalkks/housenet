@@ -114,9 +114,70 @@ def house_images():
 	return json.dumps(image_list)
 '''
 
-class HomeAPI(Resource):
-	def get(self):
-		return render_template('home.html')
+class HouseAPI(Resource):
+	def __init__(self):
+		self.reqparse = reqparse.RequestParser()
+		self.reqparse.add_argument('landlord_id', type=int, required=True, help='No landlord id provided', location='json')
+		self.reqparse.add_argument('landlord', type=str, required=True, help='No landlord provided', location='json')
+		self.reqparse.add_argument('address', type=str, required=True, help='No address provided', location='json')
+		self.reqparse.add_argument('city', type=str, required=True, help='No city provided', location='json')
+		self.reqparse.add_argument('state', type=str, required=True, help='No state provided', location='json')
+		self.reqparse.add_argument('zip_code', type=str, required=True, help='No zip code provided', location='json')
+		self.reqparse.add_argument('google_maps_link', type=str, required=False, help='No google maps link provided', location='json')
+		self.reqparse.add_argument('status', type=str, required=True, help='No status provided', location='json')
+		self.reqparse.add_argument('beds', type=int, required=True, help='No beds provided', location='json')
+		self.reqparse.add_argument('baths', type=int, required=True, help='No baths provided', location='json')
+		self.reqparse.add_argument('sq_ft', type=int, required=True, help='No square footage provided', location='json')
+		self.reqparse.add_argument('rent', type=int, required=True, help='No rent provided', location='json')
+		self.reqparse.add_argument('other_information', type=str, required=False, help='No other information provided', location='json')
+		super(PostHomeAPI, self).__init__()
+
+	def get(self, id):
+		houseFiltered = House.query.filter_by(id=id).first()
+		print(houseFiltered)
+		if houseFiltered is None:
+			return "No house found", 404
+		return houseFiltered.to_dict(), 200
+
+	def put(self, id):
+		house = House.query.filter_by(id=id).first()
+		if house is None:
+			return "No house found", 404
+		args = self.reqparse.parse_args()
+		print(args)
+		if 'status' in args and args['status'] is not None:
+			house.status = args['status']
+		if 'rent' in args and args['rent'] is not None:
+			house.rent = args['rent']
+		if 'other_information' in args and args['other_information'] is not None:
+			house.other_information = args['other_information']
+		db.session.commit()
+		house = House.query.filter_by(id=id).first()
+		return house.to_dict(), 200
+
+	def post(self):
+		args = self.reqparse.parse_args()
+		if House.query.filter_by(address=args['address']).first():
+			return 'House already exists', 409
+		house = House(
+			landlord_id=args['landlord_id'],
+			landlord=args['landlord'],
+			address=args['address'],
+			city=args['city'],
+			state=args['state'],
+			zip_code=args['zip_code'],
+			google_maps_link=args['google_maps_link'],
+			status=args['status'],
+			beds=args['beds'],
+			baths=args['baths'],
+			sq_ft=args['sq_ft'],
+			rent=args['rent'],
+			other_information=args['other_information']
+		)
+		db.session.add(house)
+		db.session.commit()
+		return house.to_dict(), 201
+
 
 class SignupAPI(Resource):
 
@@ -145,7 +206,7 @@ class SignupAPI(Resource):
 		if User.query.filter_by(email=args['email']).first():
 			return "Email already exists", 409
 		if args['gender'].upper() not in Gender.__members__:
-			return "invalid gender provided, can be one of male, female, other", 400 
+			return "invalid gender provided, can be one of male, female, other", 400
 		if args['role'].upper() not in User_Role.__members__:
 			return "invalid role provided, can be one of tenant, landlord, tenant_landlord", 400
 		user = User(args['username'], args['password'], args['email'], User_Role(args['role'].upper()), args['city'], args['state'], Gender(args['gender'].upper()),
@@ -171,7 +232,7 @@ class LoginAPI(Resource):
 			return "Incorrect password", 401
 		return userFromDB.to_dict(), 200
 
-	
+
 class UserAPI(Resource):
 
 	def __init__(self):
@@ -235,7 +296,7 @@ class UserAPI(Resource):
 			user.role = User_Role(args['role'].upper())
 		if 'gender'  in args and args['gender'] is not None:
 			if args['gender'].upper() not in Gender.__members__:
-				return "invalid gender provided, can be one of male, female, other", 400 
+				return "invalid gender provided, can be one of male, female, other", 400
 			user.gender = Gender(args['gender'].upper())
 		if 'bio'  in args and args['bio'] is not None:
 			user.bio = args['bio']
@@ -250,7 +311,7 @@ class UserAPI(Resource):
 migrate = Migrate()
 app = create_app()
 api = Api(app)
-api.add_resource(HomeAPI, '/')
+api.add_resource(HouseAPI, '/api/vi/house/<int:id>')
 api.add_resource(SignupAPI, '/api/v1/signup')
 api.add_resource(LoginAPI, '/api/v1/login')
 api.add_resource(UserAPI, '/api/v1/user/<int:id>')
