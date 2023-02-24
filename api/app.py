@@ -58,61 +58,13 @@ def create_app():
 def index():
     return app.send_static_file('index.html')
 
-'''
-
-# Return JSON of all houses
-@app.route('/houses')
-def houses():
-	houses = House.query.all()
-	house_list = []
-	for house in houses:
-		house_list.append(house.to_dict())
-	return json.dumps(house_list)
-
-@app.route('/houses/<int:house_id>')
-def house(house_id):
-	house = House.query.filter_by(id=house_id).first()
-	return json.dumps(house.to_dict())
-
-@app.route('/houses', methods=['POST'])
-def create_house():
-	house = House(
-		landlord_id=request.json['landlord_id'],
-		address=request.json['address'],
-		city=request.json['city'],
-		state=request.json['state'],
-		zip_code=request.json['zip_code'],
-		google_maps_link=request.json['google_maps_link'],
-		status=request.json['status'],
-		beds=request.json['beds'],
-		baths=request.json['baths'],
-		sq_ft=request.json['sq_ft'],
-		rent=request.json['rent'],
-		other_information=request.json['other_information']
-	)
-
-	db.session.add(house)
-	db.session.commit()
-	return json.dumps(house.to_dict())
-
-# Return JSON of all house leases
-@app.route('/house_leases')
-def house_leases():
-	house_leases = HouseLease.query.all()
-	lease_list = []
-	for lease in house_leases:
-		lease_list.append(lease.to_dict())
-	return json.dumps(lease_list)
-
-# Return JSON of all house images
-@app.route('/house_images')
-def house_images():
-	house_images = HouseImage.query.all()
-	image_list = []
-	for image in house_images:
-		image_list.append(image.to_dict())
-	return json.dumps(image_list)
-'''
+class HousesAPI(Resource):
+	def get(self):
+		houses = House.query.all()
+		house_list = []
+		for house in houses:
+			house_list.append(house.to_dict())
+		return json.dumps(house_list)
 
 class HouseAPI(Resource):
 	def __init__(self):
@@ -311,7 +263,8 @@ class UserAPI(Resource):
 migrate = Migrate()
 app = create_app()
 api = Api(app)
-api.add_resource(HouseAPI, '/api/vi/house/<int:id>')
+api.add_resource(HousesAPI, '/api/v1/houses')
+api.add_resource(HouseAPI, '/api/v1/house/<int:id>')
 api.add_resource(SignupAPI, '/api/v1/signup')
 api.add_resource(LoginAPI, '/api/v1/login')
 api.add_resource(UserAPI, '/api/v1/user/<int:id>')
