@@ -5,7 +5,7 @@ ENV PATH /app/node_modules/.bin:$PATH
 COPY /app/package.json ./
 COPY /app/src src
 COPY /app/public public
-RUN npm install 
+RUN npm install --force
 RUN npm run build
 
 # Build step #2: build the Python back end
