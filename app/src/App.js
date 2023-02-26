@@ -24,7 +24,7 @@ const App = () => (
   <div
     className="app"
     style={{
-      backgroundImage: `url(${background})`,
+      // backgroundImage: `url(${background})`,
       height: "950px",
       backgroundSize: "100% 100%",
     }}
