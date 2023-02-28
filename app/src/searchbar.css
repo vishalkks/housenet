@@ -1,21 +1,30 @@
-.searchbar {
+/* .searchbar {
     margin: 0 auto;
     font-family: "Inter", sans-serif;
     vertical-align: top;
     display: flex;
     justify-content: space-around;
     background: lightgray;
-    /* margin-bottom: 20px; */
     padding: 15px;
     border-radius: 5px;
     width: 90%;
+}
+
+.mapandlistingmain {
+  display: flex;
+}
+
+.mapandlisting {
+  background: #ce8888;
+  flex-basis: 100px;
+  height: 100px;
+  margin: 5px;
 }
   
   
   .did-floating-label-content {
     position: relative;
     margin: 5px;
-    /* margin-bottom: 20px; */
   }
   
   .did-floating-label {
@@ -36,13 +45,11 @@
   .did-floating-input, .did-floating-select {
     font-size: 12px;
     display: block;
-    /* width: 100%; */
     width: 150px;
     height: 36px;
     padding: 0 20px;
     background: white;
     color: #323840;
-    /* color: #323840; */
     border: 1px solid #3D85D8;
     border-radius: 4px;
     box-sizing: border-box;
@@ -85,4 +92,42 @@
     background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='8' height='6' viewBox='0 0 8 6'%3E%3Cpath id='Path_1' data-name='Path 1' d='M371,294l4,6,4-6Z' transform='translate(-371 -294)' fill='%23003d71'/%3E%3C/svg%3E%0A");
     background-position: right 15px top 50%;
     background-repeat: no-repeat;
-  }
+  } */
+
+.searchbar{
+  background: rgba(128, 128, 128, 0.08);
+  margin: 15px;
+}
+
+
+.float-input {
+  height: 45px;
+}
+
+.ant-select-selector{
+  height: 45px !important;
+}
+
+.ant-picker{
+  height: 45px;
+}
+
+.ant-select-selection-item {
+  top: 10px;
+}
+
+.ant-btn {
+  margin: 16px;
+}
+
+.col {
+  max-width: 49% !important;
+}
+
+.row {
+  margin: 5px !important;
+}
+
+.card-col {
+  margin-bottom: 10px;
+}

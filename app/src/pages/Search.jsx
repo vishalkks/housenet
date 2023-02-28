@@ -1,10 +1,16 @@
 import React from "react";
 import { Component } from "react";
-import { Button, message } from "antd";
+import { Button, message, Row, Col, Input, Select, DatePicker, Card, Avatar, Typography } from "antd";
 import objectGetServiceComponent from "../api/GetServiceComponent";
 import { Map, GoogleApiWrapper, Marker } from "google-maps-react";
 import axios from "axios";
 import '../searchbar.css';
+import FloatLabel from "./FloatLabel";
+import House from "../static/1.jpg";
+
+const { Option } = Select;
+const { Meta } = Card;
+const { Title } = Typography;
 
 class SearchComponent extends Component {
   constructor(props) {
@@ -18,7 +24,8 @@ class SearchComponent extends Component {
       },
       price: "",
       beds: "",
-      pets: ""
+      pets: "",
+      moveInDate: ""
     };
     this.retrieveBeanService = this.retrieveBeanService.bind(this);
     this.handleRetriveBeanSuccessfully =
@@ -62,8 +69,129 @@ class SearchComponent extends Component {
   render() {
     return (
       <>
-        <div style={{backgroundColor: "white"}}>
-          <h1>This is the search page for {this.props.params.name}.</h1>
+      {/* <h1>This is the search page for {this.props.params.name}.</h1> */}
+      <h1>Search Properties</h1>
+      <Row justify="center" className="searchbar">
+        <Col span={4}>
+          <FloatLabel label="Location" name="location" value={this.state.location.address}>
+            <Input className="float-input" value={this.state.location.address} /*onChange={e => setFirstName(e.target.value)} */ />
+          </FloatLabel>
+        </Col>
+        <Col span={4}>
+          <FloatLabel  name="move-in-date" value={this.state.moveInDate}>
+            {/* <DatePicker onChange={e => this.setState({moveInDate: e.target.value})} style={{ width: '100%' }} /> */}
+            <Input placeholder="Move-in Date" type="date" className="float-input" value={this.state.moveInDate} onChange={e => this.setState({moveInDate: e.target.value})} />
+          </FloatLabel>
+        </Col>
+        <Col span={4}>
+          <FloatLabel label="Price Range" name="price" value={this.state.price}>
+            <Select
+              showSearch
+              style={{ width: "100%" }}
+              onChange={value => this.setState({price: value})}
+              value={this.state.price}
+              // mode="tags"
+            >
+              <Option value=""></Option>
+              <Option value="1000">$1000</Option>
+              <Option value="2000">$2000</Option>
+              <Option value="3000">$3000</Option>
+              <Option value="4000">$4000</Option>
+              <Option value="5000">$5000</Option>
+              <Option value="6000">$6000</Option>
+            </Select>
+          </FloatLabel>
+        </Col>
+        <Col span={4}>
+          <FloatLabel label="Beds" name="beds" value={this.state.beds}>
+            <Select
+              showSearch
+              style={{ width: "100%" }}
+              onChange={value => this.setState({beds: value})}
+              value={this.state.beds}
+              // mode="tags"
+            >
+              <Option value=""></Option>
+              <Option value="1">1</Option>
+              <Option value="2">2</Option>
+              <Option value="3">3</Option>
+              <Option value="4">4</Option>
+              <Option value="5">5</Option>
+            </Select>
+          </FloatLabel>
+        </Col>
+        <Col span={4}>
+          <FloatLabel label="Pets" name="pets" value={this.state.pets}>
+            <Select
+              showSearch
+              style={{ width: "100%" }}
+              onChange={value => this.setState({pets: value})}
+              value={this.state.pets}
+              // mode="tags"
+            >
+              <Option value="yes">Yes</Option>
+              <Option value="no">No</Option>
+            </Select>
+          </FloatLabel>
+        </Col>
+        <Col span={4}>
+          <Button type="primary">Search</Button>
+        </Col>
+      </Row>
+
+      <Row justify="space-between" className="row"> 
+        <Col span={12} className="col" style={{height: "70vh"}}>
+          <Map
+            google={this.props.google}
+            zoom={8}
+            onClick={(t, map, coord) => {
+              this.getGeoLocation(coord.latLng.lat(), coord.latLng.lng());
+            }}
+            style={{
+              width: "100%",
+              height: "100%",
+              borderRadius: "10px",
+            }}
+            initialCenter={{ lat: 32.87512, lng: -117.21886 }}
+            >
+            <Marker position={{ lat: 33.0, lng: -117.0 }} />
+          </Map>
+        </Col>
+        <Col span={12} className="col">
+            <Row wrap={true}>
+              {
+                [1,2,3,4,5].map((num, idx) => (
+                  <Col span={12} className="card-col" key={idx}>
+                    <Card
+                      style={{ width: 300 }}
+                      cover={
+                        <img
+                          alt="example"
+                          src={House}
+                        />
+                      }
+                      actions={[
+                        "5 beds",
+                        "3 bathrooms",
+                        "No Pets"
+                      ]}
+                    >
+                      <Title level={4} style={{color: "#1677ff"}}>$3,000/month</Title>
+                      <Meta
+                        title="Beverly Hills"
+                        description="3346 Green Valley, Highland Lake, CA"
+                      />
+                    </Card>
+                  </Col>
+                ))
+              }
+            </Row>
+        </Col>
+      </Row>
+      
+      
+        {/* <div style={{backgroundColor: "white"}}>
+          
           <Button
             type="primary"
             htmlType="submit"
@@ -75,8 +203,9 @@ class SearchComponent extends Component {
           </Button>
           <div className="container">{this.state.data}</div>
         </div>
+       */}
 
-        <div>
+        {/* <div> 
           <h2 id="searchproperties"> Search Properties</h2>
 
           <div className="searchbar">
@@ -126,37 +255,63 @@ class SearchComponent extends Component {
             </div>
 
             <div className="did-floating-label-content">
-              {/* <Button className="did-floating-input" type="submit" placeholder="Search">Search</Button> */}
-              {/* <Button variant="contained" color="blue" size="medium">Search</Button> */}
               <Button variant="contained" size="large" style={{width: "90px"}}>
                 Search
               </Button>
-              {/* <label className="did-floating-label">Search</label> */}
             </div>
 
           </div>
         </div>
+      
+      <div className="container h-100">
+        <div className="row">
+            <div className="col-sm" style={{ padding: "10px", borderRadius: "5px" }}>
+              <Map
+                google={this.props.google}
+                zoom={8}
+                onClick={(t, map, coord) => {
+                  this.getGeoLocation(coord.latLng.lat(), coord.latLng.lng());
+                }}
+                style={{
+                  width: "90%",
+                  height: "90%",
+                  borderRadius: "10px",
+                }}
+                initialCenter={{ lat: 32.87512, lng: -117.21886 }}
+                >
+                <Marker position={{ lat: 33.0, lng: -117.0 }} />
+              </Map>
+            </div>
 
-        <div style={{ padding: "10px", borderRadius: "5px" }}>
-          <Map
-            google={this.props.google}
-            zoom={8}
-            onClick={(t, map, coord) => {
-              // console.log("=====", t, map, coord);
-              // console.log("latitude = ", coord.latLng.lat());
-              // console.log("longitude = ", coord.latLng.lng());
-              this.getGeoLocation(coord.latLng.lat(), coord.latLng.lng());
-            }}
-            style={{
-              width: "40%",
-              height: "87%",
-              borderRadius: "10px",
-            }}
-            initialCenter={{ lat: 32.87512, lng: -117.21886 }}
-          >
-            <Marker position={{ lat: 33.0, lng: -117.0 }} />
-          </Map>
-        </div>
+            <div className="col-sm">
+
+              <div className="card" style={{ width: "18rem" }}> 
+
+                <div> 
+                  <img class="card-img-top" src={require('../static/1.jpg')} alt="Image1" />
+                </div>
+
+                <div>
+                  <h4>$3000/month</h4>
+                  <h5>Beverly Hills</h5>
+                  <h6>3346 Green Valley, High Lake, CA</h6>
+                  <hr></hr>
+                  <i class="fa-sharp fa-solid fa-bed"> 5 Beds </i> <br />
+                  <i class="fa-solid fa-bath"> 3 Bathrooms </i> <br />
+                  <i class="fa-solid fa-paw"> No Pets </i> <br />
+                  <i class="fa-sharp fa-solid fa-wifi"> 5G Wifi </i> <br />
+                  <i class="fa-sharp fa-solid fa-smoking"> No Smoking </i>
+                  
+         
+                </div>
+
+              </div>
+
+            </div>
+
+          </div>
+        </div> */}
+      
       </>
     );
   }
