@@ -79,7 +79,7 @@ class HouseSearchAPI(Resource):
                 house_set.append(House.query.filter_by(House.beds.like(args['beds'])).all())
                 house_set.append(House.query.filter_by(House.baths.like(args['baths'])).all())
                 house_set.append(House.query.filter_by(House.sq_ft.like(args['sq_ft'])).all())
-                house_set.append(House.query.filter_by(House.rent.like(args['rent'])).all())
+                house_set.append(House.query.filter_by(House.rent >= (args['rent'])).all())
                 house_set.append(House.query.filter_by(House.city.like(args['city'])).all())
                 house_set.append(House.query.filter_by(House.state.like(args['state'])).all())
                 house_set.append(House.query.filter_by(House.zip_code.like(args['zip_code'])).all())
