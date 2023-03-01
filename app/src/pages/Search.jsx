@@ -70,7 +70,6 @@ class SearchComponent extends Component {
     return (
       <>
       {/* <h1>This is the search page for {this.props.params.name}.</h1> */}
-      <h1>Search Properties</h1>
       <Row justify="center" className="searchbar">
         <Col span={4}>
           <FloatLabel label="Location" name="location" value={this.state.location.address}>
@@ -160,7 +159,7 @@ class SearchComponent extends Component {
         <Col span={12} className="col">
             <Row wrap={true}>
               {
-                [1,2,3,4,5].map((num, idx) => (
+                [1,2,3,4].map((num, idx) => (
                   <Col span={12} className="card-col" key={idx}>
                     <Card
                       style={{ width: 300 }}
@@ -171,9 +170,9 @@ class SearchComponent extends Component {
                         />
                       }
                       actions={[
-                        "5 beds",
-                        "3 bathrooms",
-                        "No Pets"
+                        <span><i class="fa-solid fa-bed"/> 5 Beds</span>,
+                        <span><i class="fa-solid fa-bath"/> 3 Baths</span>,
+                        <span><i class="fa-solid fa-paw"/> No Pets</span>,
                       ]}
                     >
                       <Title level={4} style={{color: "#1677ff"}}>$3,000/month</Title>
@@ -188,129 +187,6 @@ class SearchComponent extends Component {
             </Row>
         </Col>
       </Row>
-      
-      
-        {/* <div style={{backgroundColor: "white"}}>
-          
-          <Button
-            type="primary"
-            htmlType="submit"
-            size="large"
-            className="retrieve-btn"
-            onClick={this.retrieveBeanService}
-          >
-            Retrive Message
-          </Button>
-          <div className="container">{this.state.data}</div>
-        </div>
-       */}
-
-        {/* <div> 
-          <h2 id="searchproperties"> Search Properties</h2>
-
-          <div className="searchbar">
-            
-            <div className="did-floating-label-content">
-              <input className="did-floating-input" type="text" placeholder=" "></input>
-              <label className="did-floating-label">Location</label>
-            </div>
-
-            <div className="did-floating-label-content">
-              <input className="did-floating-input" type="date" placeholder=" "></input>
-              <label className="did-floating-label">Move-in Date</label>
-            </div>
-
-            <div className="did-floating-label-content">
-              <select className="did-floating-select" onClick={(e) => this.setState({ price: e?.target?.value })}  onChange={(e) => this.setState({ price: e?.target?.value })} value={this.state.price}>
-                <option value=""></option>
-                <option value="1000">$1000</option>
-                <option value="2000">$2000</option>
-                <option value="3000">$3000</option>
-                <option value="4000">$4000</option>
-                <option value="5000">$5000</option>
-                <option value="6000">$6000</option>
-              </select>
-              <label className="did-floating-label">Price</label>
-            </div>
-
-            <div className="did-floating-label-content">
-              <select className="did-floating-select" onClick={(e) => this.setState({ beds: e?.target?.value })}  onChange={(e) => this.setState({ beds: e?.target?.value })} value={this.state.beds}>
-                <option value=""></option>
-                <option value="1">1</option>
-                <option value="2">2</option>
-                <option value="3">3</option>
-                <option value="4">4</option>
-                <option value="5">5</option>
-              </select>
-              <label className="did-floating-label">Beds</label>
-            </div>
-
-            <div className="did-floating-label-content">
-              <select className="did-floating-select" onClick={(e) => this.setState({ pets: e?.target?.value })}  onChange={(e) => this.setState({ pets: e?.target?.value })} value={this.state.pets}>
-                <option value=""></option>
-                <option value="yes">Yes</option>
-                <option value="no">No</option>
-              </select>
-              <label className="did-floating-label">Pets</label>
-            </div>
-
-            <div className="did-floating-label-content">
-              <Button variant="contained" size="large" style={{width: "90px"}}>
-                Search
-              </Button>
-            </div>
-
-          </div>
-        </div>
-      
-      <div className="container h-100">
-        <div className="row">
-            <div className="col-sm" style={{ padding: "10px", borderRadius: "5px" }}>
-              <Map
-                google={this.props.google}
-                zoom={8}
-                onClick={(t, map, coord) => {
-                  this.getGeoLocation(coord.latLng.lat(), coord.latLng.lng());
-                }}
-                style={{
-                  width: "90%",
-                  height: "90%",
-                  borderRadius: "10px",
-                }}
-                initialCenter={{ lat: 32.87512, lng: -117.21886 }}
-                >
-                <Marker position={{ lat: 33.0, lng: -117.0 }} />
-              </Map>
-            </div>
-
-            <div className="col-sm">
-
-              <div className="card" style={{ width: "18rem" }}> 
-
-                <div> 
-                  <img class="card-img-top" src={require('../static/1.jpg')} alt="Image1" />
-                </div>
-
-                <div>
-                  <h4>$3000/month</h4>
-                  <h5>Beverly Hills</h5>
-                  <h6>3346 Green Valley, High Lake, CA</h6>
-                  <hr></hr>
-                  <i class="fa-sharp fa-solid fa-bed"> 5 Beds </i> <br />
-                  <i class="fa-solid fa-bath"> 3 Bathrooms </i> <br />
-                  <i class="fa-solid fa-paw"> No Pets </i> <br />
-                  <i class="fa-sharp fa-solid fa-wifi"> 5G Wifi </i> <br />
-                  <i class="fa-sharp fa-solid fa-smoking"> No Smoking </i>
-                  
-         
-                </div>
-
-              </div>
-
-            </div>
-
-          </div>
-        </div> */}
       
       </>
     );
