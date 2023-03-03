@@ -47,25 +47,31 @@ class Header extends Component {
               }}
             >
               <Menu.Item key="home">
-                <Link to="/">
+                <Link to="/" style={{ textDecoration: "none" }}>
                   <b>Home</b>
                 </Link>
               </Menu.Item>
               {isUserLogin && (
                 <Menu.Item key="search">
-                  <Link to="/search">
+                  <Link to="/search" style={{ textDecoration: "none" }}>
                     <b>Search A Rental</b>
                   </Link>
                 </Menu.Item>
               )}
+
+              
               <Menu.Item key="wishlists">
-                <b>My Wishlists</b>
+                <Link to="/detailed" style={{ textDecoration: "none" }}>
+                  <b>My Wishlists</b>
+                </Link>
               </Menu.Item>
+
               {isUserLogin && (
                 <Menu.Item key="chathub">
                   <b>Chathub</b>
                 </Menu.Item>
               )}
+
               <Menu.Item key="contact">
                 <b>Contact</b>
               </Menu.Item>
@@ -87,7 +93,7 @@ class Header extends Component {
             >
               {!isUserLogin && (
                 <Menu.Item key="sign-in">
-                  <Link to="/sign-in">
+                  <Link to="/sign-in" style={{ textDecoration: "none" }}>
                     <b>Sign In</b>{" "}
                   </Link>
                 </Menu.Item>
@@ -95,15 +101,17 @@ class Header extends Component {
 
               {!isUserLogin && (
                 <Menu.Item key="sign-up">
-                  <Link to="/sign-up">
+                  <Link to="/sign-up" style={{ textDecoration: "none" }}>
                     <b>Sign Up </b>{" "}
                   </Link>
                 </Menu.Item>
               )}
+
               {isUserLogin && (
                 <Menu.Item key="logout">
                   <Link
                     to="/logout"
+                    style={{ textDecoration: "none" }}
                     onClick={
                       AuthenticationSessionStorageObject.logoutRemoveEntry
                     }

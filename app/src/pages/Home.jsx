@@ -1,16 +1,23 @@
 import React from "react";
 import { Form, Input, Button } from "antd";
 import { SearchOutlined } from "@ant-design/icons";
+import background from "../static/main_home_background.png";
 
 const Home = () => {
   return (
-    <div className="home">
+    <div
+      className="home"
+      style={{
+        backgroundImage: `url(${background})`,
+        height: "100%",
+        backgroundSize: "100% 100%",
+      }}
+    >
       <div
         style={{
           fontSize: "55px",
           textAlign: "left",
-          marginTop: "100px",
-          marginLeft: " 200px",
+          padding: "8% 40% 0% 10%",
         }}
       >
         Let's Hunt For Your Dream Residence
@@ -19,8 +26,7 @@ const Home = () => {
         style={{
           fontSize: "20px",
           textAlign: "left",
-          marginTop: "20px",
-          marginLeft: " 200px",
+          padding: "2% 50% 0% 10%",
         }}
       >
         Explore our range of beautiful properties with the addition of separate
@@ -32,8 +38,7 @@ const Home = () => {
             fontSize: "20px",
             color: "rgba(105, 185, 157, 0.8)",
             textAlign: "left",
-            marginTop: "50px",
-            marginLeft: " 200px",
+            padding: "3% 40% 0% 10%",
           }}
         >
           <b>Rentals Location</b>
@@ -42,8 +47,7 @@ const Home = () => {
           style={{
             fontSize: "20px",
             textAlign: "left",
-            marginTop: "20px",
-            marginLeft: " 200px",
+            padding: "1% 40% 0% 10%",
           }}
         >
           <Form

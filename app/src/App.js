@@ -15,6 +15,7 @@ import Footer from "./components/Footer";
 import AuthenticatedRoute from "./components/AuthenticatedRoute";
 import "./App.css";
 import "./bootstrap.css";
+import DetailedPage from "./pages/Detailed";
 
 const LoginComponentWithNavigation = withNavigation(Signin);
 const HeaderComponentWithNavigation = withNavigation(Header);
@@ -24,8 +25,8 @@ const App = () => (
   <div
     className="app"
     style={{
-      // backgroundImage: `url(${background})`,
-      // height: "950px",
+      backgroundImage: `url(${background})`,
+      height: "1000px",
       backgroundSize: "100% 100%",
     }}
   >
@@ -43,6 +44,7 @@ const App = () => (
             </AuthenticatedRoute>
           }
         />
+        <Route path="/detailed" element={<DetailedPage />} />
         <Route
           path="/logout"
           element={
