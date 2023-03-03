@@ -8,6 +8,7 @@ import Signin from "./pages/Signin";
 import GoogleApiWrapper from "./pages/Search";
 import ErrorComponent from "./pages/Error";
 import LogoutComponent from "./pages/Logout";
+import DetailedPage from "./pages/Detailed";
 import withNavigation from "./components/WithNavigation";
 import withParams from "./components/withParams";
 import Header from "./components/Headers";
@@ -15,7 +16,6 @@ import Footer from "./components/Footer";
 import AuthenticatedRoute from "./components/AuthenticatedRoute";
 import "./App.css";
 import "./bootstrap.css";
-import DetailedPage from "./pages/Detailed";
 
 const LoginComponentWithNavigation = withNavigation(Signin);
 const HeaderComponentWithNavigation = withNavigation(Header);
