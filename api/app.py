@@ -95,7 +95,7 @@ class HouseSearchAPI(Resource):
                 return json.dumps(house_list), 200
 
 
-class HousesAPI(Resource):
+class GetAllHousesAPI(Resource):
         def get(self):
                 houses = House.query.all()
                 house_list = []
@@ -300,7 +300,7 @@ class UserAPI(Resource):
 migrate = Migrate()
 app = create_app()
 api = Api(app)
-api.add_resource(HousesAPI, '/api/v1/houses')
+api.add_resource(GetAllHousesAPI, '/api/v1/houses')
 api.add_resource(HouseAPI, '/api/v1/house/<int:id>')
 api.add_resource(HouseSearchAPI, '/api/v1/house/search')
 api.add_resource(SignupAPI, '/api/v1/signup')
