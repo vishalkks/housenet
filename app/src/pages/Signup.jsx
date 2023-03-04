@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Form, Input, Button, message } from "antd";
-import http from "../utils/http";
+import axios from "axios";
 
 const Signup = () => {
   const [form] = Form.useForm();
@@ -9,7 +9,7 @@ const Signup = () => {
   const onFinish = (values) => {
     setLoading(true);
     // Perform registration logic here, e.g. API call to backend
-    http
+    axios
       .post("/api/v1/sign-up", values)
       .then(() => {
         message.success("Registration successful!");
