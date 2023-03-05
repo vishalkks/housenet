@@ -5,7 +5,7 @@
 >
 > - Download relevant packages using <code> pip install -r requirements.txt </code>
 > - Set <code>DEV</code> in .env to <code>True</code> (IMPORTANT TO SET IT BACK TO FALSE WHEN MERGING INTO MAIN)
-> - Run application using <code>flask run</code>
+> - Run application using <code>flask run -p 8080</code>
 
 ## Interacting with the database
 > - run <code>flash shell</code> in your directory holding this repository

@@ -58,7 +58,7 @@ class User(db.Model):
 		self.phone = phone
 		self.profile_pic = profile_pic
 		self.about_me = about_me
-		
+
 
 	def to_dict(self):
 			return dict({
@@ -120,9 +120,7 @@ class House(db.Model):
 		 return dict({
 			"id" : self.id,
 			"landlord_id" : self.landlord_id,
-			"landlord" : self.landlord,
 			"tenant_id" : self.tenant_id,
-			"tenant" : self.tenant,
 			"address" : self.address,
 			"city" : self.city,
 			"state" : self.state,
