@@ -106,8 +106,8 @@ class GetAllHousesAPI(Resource):
 class PostHouseAPI(Resource):
         def __init__(self):
                 self.reqparse = reqparse.RequestParser()
-                self.reqparse.add_argument('landlord_id', type=int, required=True, help='No landlord id provided', location='json')
-                self.reqparse.add_argument('landlord', type=str, required=True, help='No landlord provided', location='json')
+                self.reqparse.add_argument('landlord_id', type=int, required=False, help='No landlord id provided', location='json')
+                self.reqparse.add_argument('landlord', type=str, required=False, help='No landlord provided', location='json')
                 self.reqparse.add_argument('address', type=str, required=True, help='No address provided', location='json')
                 self.reqparse.add_argument('city', type=str, required=True, help='No city provided', location='json')
                 self.reqparse.add_argument('state', type=str, required=True, help='No state provided', location='json')
@@ -148,8 +148,8 @@ class PostHouseAPI(Resource):
 class HouseAPI(Resource):
         def __init__(self):
                 self.reqparse = reqparse.RequestParser()
-                self.reqparse.add_argument('landlord_id', type=int, required=True, help='No landlord id provided', location='json')
-                self.reqparse.add_argument('landlord', type=str, required=True, help='No landlord provided', location='json')
+                self.reqparse.add_argument('landlord_id', type=int, required=False, help='No landlord id provided', location='json')
+                self.reqparse.add_argument('landlord', type=str, required=False, help='No landlord provided', location='json')
                 self.reqparse.add_argument('address', type=str, required=True, help='No address provided', location='json')
                 self.reqparse.add_argument('city', type=str, required=True, help='No city provided', location='json')
                 self.reqparse.add_argument('state', type=str, required=True, help='No state provided', location='json')
@@ -192,7 +192,7 @@ class HouseAPI(Resource):
                         return 'House already exists', 409
                 house = House(
                         landlord_id=args['landlord_id'],
-                        landlord=args['landlord'],
+                        # landlord=args['landlord'],
                         address=args['address'],
                         city=args['city'],
                         state=args['state'],

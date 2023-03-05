@@ -120,9 +120,9 @@ class House(db.Model):
 		 return dict({
 			"id" : self.id,
 			"landlord_id" : self.landlord_id,
-			"landlord" : self.landlord,
+			# "landlord" : self.landlord,
 			"tenant_id" : self.tenant_id,
-			"tenant" : self.tenant,
+			# "tenant" : self.tenant,
 			"address" : self.address,
 			"city" : self.city,
 			"state" : self.state,
