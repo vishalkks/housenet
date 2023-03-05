@@ -1,0 +1,232 @@
+{
+	"info": {
+		"_postman_id": "744d77b0-efac-4547-bd64-f197689b11c9",
+		"name": "Housenet",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "16097088"
+	},
+	"item": [
+		{
+			"name": "Get user by ID",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{BE_HOST}}/api/v1/user/42",
+					"host": [
+						"{{BE_HOST}}"
+					],
+					"path": [
+						"api",
+						"v1",
+						"user",
+						"42"
+					]
+				},
+				"description": "Get the user by ID given the ID, all the details about the user is returned. If successful it returns 200, else it will return 40x, either 400 or 404 depending on bad request or bad request."
+			},
+			"response": []
+		},
+		{
+			"name": "Login ",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"username\":\"tesat\",\n    \"password\":\"test1\"\n}"
+				},
+				"url": {
+					"raw": "{{BE_HOST}}/api/v1/login",
+					"host": [
+						"{{BE_HOST}}"
+					],
+					"path": [
+						"api",
+						"v1",
+						"login"
+					]
+				},
+				"description": "The login API. The body must be\n\n{'username':'', 'password':''}, and we check in the backend if it works or not. Will return 401 if wrong password, 404 if user doesn't exist and 200 if successful"
+			},
+			"response": []
+		},
+		{
+			"name": "Update user",
+			"protocolProfileBehavior": {
+				"disabledSystemHeaders": {}
+			},
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"username\":\"admin12345\",\n    \"password\":\"admin\"\n    \n}"
+				},
+				"url": {
+					"raw": "{{BE_HOST}}/api/v1/user/42",
+					"host": [
+						"{{BE_HOST}}"
+					],
+					"path": [
+						"api",
+						"v1",
+						"user",
+						"42"
+					]
+				},
+				"description": "Update user with optional parameters if needed\n\nBody is any combination of these optional parameters\n\n{\n\n'username':'',\n\n'password':'',\n\n'email':'',\n\n'first_name':'',\n\n'last_name':'',\n\n'phone_number':'',\n\n'city':'',\n\n'state':'',\n\n'zip_code':'',\n\n'gender':'',\n\n'bio':'',\n\n'profile_picture':'',\n\n'age':'',\n\n}"
+			},
+			"response": []
+		},
+		{
+			"name": "Post house",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"landlord_id\": 1,\n    \"landlord\": \"etan\",\n    \"address\" : \"11825\",\n    \"city\" : \"san diego\",\n    \"state\" : \"california\",\n    \"zip_code\" : 92131,\n    \"google_maps_link\":\"no linke here lol\",\n    \"status\": \"AVAILABLE\",\n    \"beds\": 3,\n    \"baths\": 10000,\n    \"sq_ft\": 50,\n    \"rent\": 30000,\n    \"other_information\": \"\"\n}"
+				},
+				"url": {
+					"raw": "{{BE_HOST}}/api/v1/house",
+					"host": [
+						"{{BE_HOST}}"
+					],
+					"path": [
+						"api",
+						"v1",
+						"house"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Search house",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"landlord_id\": 1,\n    \"landlord\": \"etan\",\n    \"address\" : \"11825\",\n    \"city\" : \"san diego\",\n    \"state\" : \"california\",\n    \"zip_code\" : 92131,\n    \"google_maps_link\":\"no linke here lol\",\n    \"status\": \"AVAILABLE\",\n    \"beds\": 3,\n    \"baths\": 10000,\n    \"sq_ft\": 50,\n    \"rent\": 30000,\n    \"other_information\": \"\"\n}"
+				},
+				"url": {
+					"raw": "{{BE_HOST}}/api/v1/house/search",
+					"host": [
+						"{{BE_HOST}}"
+					],
+					"path": [
+						"api",
+						"v1",
+						"house",
+						"search"
+					]
+				},
+				"description": "Search a particular house, 404 if no houses and 200 if houses provided in search\n\nBody can be any combination of these params:\n\n{  \n\"landlord_id\": 1,  \n\"landlord\": \"etan\",  \n\"address\" : \"11825\",  \n\"city\" : \"san diego\",  \n\"state\" : \"california\",  \n\"zip_code\" : 92131,  \n\"google_maps_link\":\"no linke here lol\",  \n\"status\": \"AVAILABLE\",  \n\"beds\": 3,  \n\"baths\": 10000,  \n\"sq_ft\": 50,  \n\"rent\": 30000,  \n\"other_information\": \"\"  \n}\n\nAnd I believe we are doing a union search and not a intersection search for now. So essentially we check if any of the search params match and if they do, we combine all the results together"
+			},
+			"response": []
+		},
+		{
+			"name": "Get houses",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{BE_HOST}}/api/v1/houses",
+					"host": [
+						"{{BE_HOST}}"
+					],
+					"path": [
+						"api",
+						"v1",
+						"houses"
+					]
+				},
+				"description": "Gets all houses will return houses with 200"
+			},
+			"response": []
+		},
+		{
+			"name": "Get house",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{BE_HOST}}/api/v1/house/42",
+					"host": [
+						"{{BE_HOST}}"
+					],
+					"path": [
+						"api",
+						"v1",
+						"house",
+						"42"
+					]
+				},
+				"description": "Get a particular house, 404 if house doesn't exist and 200 if house exists"
+			},
+			"response": []
+		},
+		{
+			"name": "Signup",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\n\"username\":\"test\",\n\n\"password\":\"test\",\n\n\"email\":\"test@test\",\n\n\"first_name\":\"test\",\n\n\"last_name\":\"test\",\n\n\"phone_number\":\"1111111111\",\n\n\"city\":\"San Diego\",\n\n\"state\":\"California\",\n\n\"zip_code\":\"92092\",\n\n\"gender\":\"Male\",\n\n\"bio\":\"test\",\n\n\"profile_picture\":\"some link\",\n\n\"age\":21\n\n}"
+				},
+				"url": {
+					"raw": "{{BE_HOST}}/api/v1/signup",
+					"host": [
+						"{{BE_HOST}}"
+					],
+					"path": [
+						"api",
+						"v1",
+						"signup"
+					]
+				},
+				"description": "Body is any combination of these parameters\n\n{\n\n'username':'',\n\n'password':'',\n\n'email':'',\n\n'first_name':'',\n\n'last_name':'',\n\n'phone_number':'',\n\n'city':'',\n\n'state':'',\n\n'zip_code':'',\n\n'gender':'',\n\n'bio':'',\n\n'profile_picture':'',\n\n'age':'',\n\n}\n\n  \nWill return 409 if user already exists, 400 if bad request with description given, and 201 if successful"
+			},
+			"response": []
+		}
+	],
+	"variable": [
+		{
+			"key": "BE_HOST",
+			"value": "http://127.0.0.1:8080"
+		}
+	]
+}

@@ -8,6 +8,7 @@ import Signin from "./pages/Signin";
 import GoogleApiWrapper from "./pages/Search";
 import ErrorComponent from "./pages/Error";
 import LogoutComponent from "./pages/Logout";
+import DetailedPage from "./pages/Detailed";
 import withNavigation from "./components/WithNavigation";
 import withParams from "./components/withParams";
 import Header from "./components/Headers";
@@ -25,7 +26,7 @@ const App = () => (
     className="app"
     style={{
       backgroundImage: `url(${background})`,
-      height: "950px",
+      height: "1000px",
       backgroundSize: "100% 100%",
     }}
   >
@@ -43,6 +44,7 @@ const App = () => (
             </AuthenticatedRoute>
           }
         />
+        <Route path="/detailed" element={<DetailedPage />} />
         <Route
           path="/logout"
           element={

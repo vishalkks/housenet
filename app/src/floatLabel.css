@@ -1,0 +1,22 @@
+
+.float-label {
+    position: relative;
+    margin: 12px;
+  }
+  
+  .flabel {
+    font-size: 12px;
+    font-weight: normal;
+    position: absolute;
+    pointer-events: none;
+    left: 12px;
+    top: 12px;
+    transition: 0.2s ease all;
+    color: #595959;;
+
+  }
+  
+  .label-float {
+    top: 3px;
+    font-size: 10px;
+  }

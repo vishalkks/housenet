@@ -10,7 +10,7 @@ const Signup = () => {
     setLoading(true);
     // Perform registration logic here, e.g. API call to backend
     axios
-      .post("/api/register", values)
+      .post("/api/v1/sign-up", values)
       .then(() => {
         message.success("Registration successful!");
         setLoading(false);
