@@ -103,6 +103,48 @@ class GetAllHousesAPI(Resource):
                         house_list.append(house.to_dict())
                 return json.dumps(house_list)
 
+class PostHouseAPI(Resource):
+        def __init__(self):
+                self.reqparse = reqparse.RequestParser()
+                self.reqparse.add_argument('landlord_id', type=int, required=True, help='No landlord id provided', location='json')
+                self.reqparse.add_argument('landlord', type=str, required=True, help='No landlord provided', location='json')
+                self.reqparse.add_argument('address', type=str, required=True, help='No address provided', location='json')
+                self.reqparse.add_argument('city', type=str, required=True, help='No city provided', location='json')
+                self.reqparse.add_argument('state', type=str, required=True, help='No state provided', location='json')
+                self.reqparse.add_argument('zip_code', type=str, required=True, help='No zip code provided', location='json')
+                self.reqparse.add_argument('google_maps_link', type=str, required=False, help='No google maps link provided', location='json')
+                self.reqparse.add_argument('status', type=str, required=True, help='No status provided', location='json')
+                self.reqparse.add_argument('beds', type=int, required=True, help='No beds provided', location='json')
+                self.reqparse.add_argument('baths', type=int, required=True, help='No baths provided', location='json')
+                self.reqparse.add_argument('sq_ft', type=int, required=True, help='No square footage provided', location='json')
+                self.reqparse.add_argument('rent', type=int, required=True, help='No rent provided', location='json')
+                self.reqparse.add_argument('other_information', type=str, required=False, help='No other information provided', location='json')
+                super(PostHouseAPI, self).__init__()
+
+        def post(self):
+                args = self.reqparse.parse_args()
+                if House.query.filter_by(address=args['address']).first():
+                        return 'House already exists', 409
+                house = House(
+                        landlord_id=args['landlord_id'],
+                        address=args['address'],
+                        city=args['city'],
+                        state=args['state'],
+                        zip_code=args['zip_code'],
+                        google_maps_link=args['google_maps_link'],
+                        status=args['status'],
+                        beds=args['beds'],
+                        baths=args['baths'],
+                        sq_ft=args['sq_ft'],
+                        rent=args['rent'],
+                        other_information=args['other_information']
+                )
+                db.session.add(house)
+                db.session.commit()
+                return house.to_dict(), 201
+
+
+
 class HouseAPI(Resource):
         def __init__(self):
                 self.reqparse = reqparse.RequestParser()
