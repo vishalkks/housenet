@@ -119,7 +119,7 @@ class PostHouseAPI(Resource):
                 self.reqparse.add_argument('sq_ft', type=int, required=True, help='No square footage provided', location='json')
                 self.reqparse.add_argument('rent', type=int, required=True, help='No rent provided', location='json')
                 self.reqparse.add_argument('other_information', type=str, required=False, help='No other information provided', location='json')
-                super(HouseAPI, self).__init__()
+                super(PostHouseAPI, self).__init__()
 
         def post(self):
                 args = self.reqparse.parse_args()
