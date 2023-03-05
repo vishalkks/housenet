@@ -76,16 +76,16 @@ class HouseSearchAPI(Resource):
         def post(self):
                 args = self.reqparse.parse_args()
                 house_set = set()
-                house_set.append(House.query.filter_by(House.beds.like(args['beds'])).all())
-                house_set.append(House.query.filter_by(House.baths.like(args['baths'])).all())
-                house_set.append(House.query.filter_by(House.sq_ft.like(args['sq_ft'])).all())
-                house_set.append(House.query.filter_by(House.rent >= (args['rent'])).all())
-                house_set.append(House.query.filter_by(House.city.like(args['city'])).all())
-                house_set.append(House.query.filter_by(House.state.like(args['state'])).all())
-                house_set.append(House.query.filter_by(House.zip_code.like(args['zip_code'])).all())
-                house_set.append(House.query.filter_by(House.status.like(args['status'])).all())
-                house_set.append(House.query.filter_by(House.landlord.like(args['landlord'])).all())
-                house_set.append(House.query.filter_by(House.google_maps_link.like(args['google_maps_link'])).all())
+                house_set.add(House.query.filter_by(House.beds.like(args['beds'])).all())
+                house_set.add(House.query.filter_by(House.baths.like(args['baths'])).all())
+                house_set.add(House.query.filter_by(House.sq_ft.like(args['sq_ft'])).all())
+                house_set.add(House.query.filter_by(House.rent >= (args['rent'])).all())
+                house_set.add(House.query.filter_by(House.city.like(args['city'])).all())
+                house_set.add(House.query.filter_by(House.state.like(args['state'])).all())
+                house_set.add(House.query.filter_by(House.zip_code.like(args['zip_code'])).all())
+                house_set.add(House.query.filter_by(House.status.like(args['status'])).all())
+                house_set.add(House.query.filter_by(House.landlord.like(args['landlord'])).all())
+                house_set.add(House.query.filter_by(House.google_maps_link.like(args['google_maps_link'])).all())
                 if len(house_set) == 0:
                         return "No houses found", 404
 
@@ -185,29 +185,6 @@ class HouseAPI(Resource):
                 db.session.commit()
                 house = House.query.filter_by(id=id).first()
                 return house.to_dict(), 200
-
-        def post(self):
-                args = self.reqparse.parse_args()
-                if House.query.filter_by(address=args['address']).first():
-                        return 'House already exists', 409
-                house = House(
-                        landlord_id=args['landlord_id'],
-                        # landlord=args['landlord'],
-                        address=args['address'],
-                        city=args['city'],
-                        state=args['state'],
-                        zip_code=args['zip_code'],
-                        google_maps_link=args['google_maps_link'],
-                        status=args['status'],
-                        beds=args['beds'],
-                        baths=args['baths'],
-                        sq_ft=args['sq_ft'],
-                        rent=args['rent'],
-                        other_information=args['other_information']
-                )
-                db.session.add(house)
-                db.session.commit()
-                return house.to_dict(), 201
 
 
 class SignupAPI(Resource):
