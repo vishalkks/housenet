@@ -18,6 +18,7 @@ import axios from "axios";
 import "../searchbar.css";
 import FloatLabel from "./FloatLabel";
 import House from "../static/1.jpg";
+import data from "../data/hardcode.json";
 
 const { Option } = Select;
 const { Meta } = Card;
@@ -33,10 +34,11 @@ class SearchComponent extends Component {
         address: "",
         postalCode: "",
       },
-      price: "Empty",
+      price: "",
       beds: "",
       pets: "",
       moveInDate: "",
+      filteredListing: data
     };
     this.retrieveBeanService = this.retrieveBeanService.bind(this);
     this.handleRetriveBeanSuccessfully =
@@ -72,15 +74,47 @@ class SearchComponent extends Component {
         "&key=AIzaSyB-vvXcp3O6oPDD_Lgj9Hk4cNxnsdVhx90"
     );
     console.log(response);
-    // const address = response["data"];
-    // console.log("address", address);
-    alert(response["data"]["plus_code"]["compound_code"]);
+    // alert(response["data"]["plus_code"]["compound_code"]);
+    let code = "";
+    response["data"]["results"].forEach(result => {
+      // console.log(result);
+      result.address_components.forEach(component => {
+        if(component?.types.includes("postal_code")) {
+          code = component.long_name
+        }
+      })
+    });
+    console.log(code);
+
     this.setState({
       location: {
         address: response["data"]["plus_code"]["compound_code"],
-        postalCode: "",
+        postalCode: code
       },
     });
+  }
+
+  handleSearch() {
+    console.log(this.state);
+    console.log(data);
+
+    let filteredData = data;
+    if(this.state.location.postalCode !== "") {
+      filteredData = filteredData.filter(d => d.postalCode === this.state.location.postalCode);
+    }
+    if(this.state.price !== "") {
+      filteredData = filteredData.filter(d => d.price === `$${this.state.price}/month`);
+    }
+    if(this.state.beds !== "") {
+      filteredData = filteredData.filter(d => d.beds ===  `${this.state.beds} Beds`);
+    }
+    if(this.state.pets !== "") {
+      filteredData = filteredData.filter(d => d.pets ===  (this.state.pets === "no" ? "No Pets" : "Allow Pets"));
+    }
+    console.log("filteredData", filteredData);
+    this.setState({
+      filteredListing: filteredData
+    })
   }
 
   render() {
@@ -170,7 +204,7 @@ class SearchComponent extends Component {
             </FloatLabel>
           </Col>
           <Col span={4}>
-            <Button type="primary">Search</Button>
+            <Button type="primary" onClick={() => this.handleSearch()}>Search</Button>
           </Col>
         </Row>
 
@@ -194,29 +228,29 @@ class SearchComponent extends Component {
           </Col>
           <Col span={12} className="col">
             <Row wrap={true}>
-              {[1, 2, 3, 4].map((num, idx) => (
-                <Col span={12} className="card-col" key={idx}>
+              {this.state.filteredListing.map((listing) => (
+                <Col span={12} className="card-col" key={listing.id}>
                   <Card
                     style={{ width: 300 }}
                     cover={<img alt="example" src={House} />}
                     actions={[
                       <span>
-                        <i class="fa-solid fa-bed" /> 5 Beds
+                        <i class="fa-solid fa-bed" /> {listing.beds} Beds
                       </span>,
                       <span>
-                        <i class="fa-solid fa-bath" /> 3 Baths
+                        <i class="fa-solid fa-bath" /> {listing.bathrooms} Baths
                       </span>,
                       <span>
-                        <i class="fa-solid fa-paw" /> No Pets
+                        <i class="fa-solid fa-paw" /> {listing.pets}
                       </span>,
                     ]}
                   >
                     <Title level={4} style={{ color: "#1677ff" }}>
-                      $3,000/month
+                      {listing.price}
                     </Title>
                     <Meta
-                      title="Beverly Hills"
-                      description="3346 Green Valley, Highland Lake, CA"
+                      title={listing.city}
+                      description={listing.location}
                     />
                   </Card>
                 </Col>

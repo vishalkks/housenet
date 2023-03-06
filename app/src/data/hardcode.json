@@ -9,7 +9,8 @@
     "wifi": "5G WIFI",
     "bathrooms": "3 Bathrooms",
     "smoking": "No Smoking",
-    "pets": "No Pets"
+    "pets": "No Pets",
+    "postalCode": "92101"
   },
   {
     "id": 2,
@@ -21,7 +22,8 @@
     "wifi": "5G WIFI",
     "bathrooms": "3 Bathrooms",
     "smoking": "No Smoking",
-    "pets": "No Pets"
+    "pets": "No Pets",
+    "postalCode": "92092"
   },
   {
     "id": 3,
@@ -33,7 +35,8 @@
     "wifi": "5G WIFI",
     "bathrooms": "4 Bathrooms",
     "smoking": "No Smoking",
-    "pets": "No Pets"
+    "pets": "No Pets",
+    "postalCode": "92092"
   },
   {
     "id": 4,
@@ -45,7 +48,8 @@
     "wifi": "5G WIFI",
     "bathrooms": "3 Bathrooms",
     "smoking": "No Smoking",
-    "pets": "No Pets"
+    "pets": "No Pets",
+    "postalCode": "92101"
   },
   {
     "id": 5,
@@ -57,7 +61,8 @@
     "wifi": "5G WIFI",
     "bathrooms": "3 Bathrooms",
     "smoking": "No Smoking",
-    "pets": "No Pets"
+    "pets": "No Pets",
+    "postalCode": "92093"
   },
   {
     "id": 6,
@@ -69,7 +74,8 @@
     "wifi": "5G WIFI",
     "bathrooms": "3 Bathrooms",
     "smoking": "No Smoking",
-    "pets": "No Pets"
+    "pets": "No Pets",
+    "postalCode": "92094"
   },
   {
     "id": 7,
@@ -81,7 +87,8 @@
     "wifi": "5G WIFI",
     "bathrooms": "1 Bathrooms",
     "smoking": "Allow Smoking",
-    "pets": "Allow Pets"
+    "pets": "Allow Pets",
+    "postalCode": "92093"
   },
   {
     "id": 8,
@@ -93,6 +100,7 @@
     "wifi": "5G WIFI",
     "bathrooms": "6 Bathrooms",
     "smoking": "Allow Smoking",
-    "pets": "Allow Pets"
+    "pets": "Allow Pets",
+    "postalCode": "92094"
   }
 ]
