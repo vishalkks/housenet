@@ -76,16 +76,28 @@ class HouseSearchAPI(Resource):
         def post(self):
                 args = self.reqparse.parse_args()
                 house_set = set()
-                house_set.append(House.query.filter_by(House.beds.like(args['beds'])).all())
-                house_set.append(House.query.filter_by(House.baths.like(args['baths'])).all())
-                house_set.append(House.query.filter_by(House.sq_ft.like(args['sq_ft'])).all())
-                house_set.append(House.query.filter_by(House.rent >= (args['rent'])).all())
-                house_set.append(House.query.filter_by(House.city.like(args['city'])).all())
-                house_set.append(House.query.filter_by(House.state.like(args['state'])).all())
-                house_set.append(House.query.filter_by(House.zip_code.like(args['zip_code'])).all())
-                house_set.append(House.query.filter_by(House.status.like(args['status'])).all())
-                house_set.append(House.query.filter_by(House.landlord.like(args['landlord'])).all())
-                house_set.append(House.query.filter_by(House.google_maps_link.like(args['google_maps_link'])).all())
+
+                if args['beds'] is not None:
+                        house_set.update(House.query.filter_by(beds=args['beds']).all())
+                if args['baths'] is not None:
+                        house_set.update(House.query.filter_by(baths=args['baths']).all())
+                if args['sq_ft'] is not None:
+                        house_set.update(House.query.filter(House.sq_ft <= args['sq_ft']).all())
+                if args['rent'] is not None:
+                        house_set.update(House.query.filter(House.rent <= args['rent']).all())
+                if args['city'] is not None:
+                        house_set.update(House.query.filter_by(city=args['city']).all())
+                if args['state'] is not None:
+                        house_set.update(House.query.filter_by(state=args['state']).all())
+                if args['zip_code'] is not None:
+                        house_set.update(House.query.filter_by(zip_code=args['zip_code']).all())
+                if args['status'] is not None:
+                        house_set.update(House.query.filter_by(status=args['status']).all())
+                # if args['landlord'] is not None:
+                #         house_set.update(House.query.filter_by(landlord=args['landlord']).all())
+                if args['google_maps_link'] is not None:
+                        house_set.update(House.query.filter_by(google_maps_link=args['google_maps_link']).all())
+                
                 if len(house_set) == 0:
                         return "No houses found", 404
 
@@ -96,6 +108,9 @@ class HouseSearchAPI(Resource):
 
 
 class GetAllHousesAPI(Resource):
+        def __init__(self):
+                super(GetAllHousesAPI, self).__init__()
+        
         def get(self):
                 houses = House.query.all()
                 house_list = []
@@ -106,8 +121,8 @@ class GetAllHousesAPI(Resource):
 class PostHouseAPI(Resource):
         def __init__(self):
                 self.reqparse = reqparse.RequestParser()
-                self.reqparse.add_argument('landlord_id', type=int, required=True, help='No landlord id provided', location='json')
-                self.reqparse.add_argument('landlord', type=str, required=True, help='No landlord provided', location='json')
+                self.reqparse.add_argument('landlord_id', type=int, required=False, help='No landlord id provided', location='json')
+                self.reqparse.add_argument('landlord', type=str, required=False, help='No landlord provided', location='json')
                 self.reqparse.add_argument('address', type=str, required=True, help='No address provided', location='json')
                 self.reqparse.add_argument('city', type=str, required=True, help='No city provided', location='json')
                 self.reqparse.add_argument('state', type=str, required=True, help='No state provided', location='json')
@@ -119,7 +134,7 @@ class PostHouseAPI(Resource):
                 self.reqparse.add_argument('sq_ft', type=int, required=True, help='No square footage provided', location='json')
                 self.reqparse.add_argument('rent', type=int, required=True, help='No rent provided', location='json')
                 self.reqparse.add_argument('other_information', type=str, required=False, help='No other information provided', location='json')
-                super(HouseAPI, self).__init__()
+                super(PostHouseAPI, self).__init__()
 
         def post(self):
                 args = self.reqparse.parse_args()
@@ -127,7 +142,6 @@ class PostHouseAPI(Resource):
                         return 'House already exists', 409
                 house = House(
                         landlord_id=args['landlord_id'],
-                        landlord=args['landlord'],
                         address=args['address'],
                         city=args['city'],
                         state=args['state'],
@@ -149,8 +163,8 @@ class PostHouseAPI(Resource):
 class HouseAPI(Resource):
         def __init__(self):
                 self.reqparse = reqparse.RequestParser()
-                self.reqparse.add_argument('landlord_id', type=int, required=True, help='No landlord id provided', location='json')
-                self.reqparse.add_argument('landlord', type=str, required=True, help='No landlord provided', location='json')
+                self.reqparse.add_argument('landlord_id', type=int, required=False, help='No landlord id provided', location='json')
+                self.reqparse.add_argument('landlord', type=str, required=False, help='No landlord provided', location='json')
                 self.reqparse.add_argument('address', type=str, required=True, help='No address provided', location='json')
                 self.reqparse.add_argument('city', type=str, required=True, help='No city provided', location='json')
                 self.reqparse.add_argument('state', type=str, required=True, help='No state provided', location='json')
