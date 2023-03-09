@@ -7,9 +7,7 @@ import {
   Col,
   Input,
   Select,
-  DatePicker,
   Card,
-  Avatar,
   Typography,
 } from "antd";
 import objectGetServiceComponent from "../api/GetServiceComponent";
@@ -18,7 +16,7 @@ import axios from "axios";
 import "../searchbar.css";
 import FloatLabel from "./FloatLabel";
 import House from "../static/1.jpg";
-import data from "../data/hardcode.json";
+import searchdata from "../data/searchdata.json";
 
 const { Option } = Select;
 const { Meta } = Card;
@@ -28,22 +26,26 @@ class SearchComponent extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      data: "",
+      filteredListing: searchdata,
       loading: true,
       location: {
         address: "",
-        postalCode: "",
+        zip_code: "",
       },
-      price: "",
+      rent: "",
       beds: "",
       pets: "",
+      status: "2",
       moveInDate: "",
-      filteredListing: data
     };
     this.retrieveBeanService = this.retrieveBeanService.bind(this);
     this.handleRetriveBeanSuccessfully =
       this.handleRetriveBeanSuccessfully.bind(this);
     this.handleRetriveBeanError = this.handleRetriveBeanError.bind(this);
+    this.handleSearch = this.onClickSearch.bind(this);
+    this.handleRetriveHousesSuccessfully =
+      this.handleRetriveHousesSuccessfully.bind(this);
+    this.exportData = this.exportData.bind(this);
   }
 
   retrieveBeanService() {
@@ -76,45 +78,88 @@ class SearchComponent extends Component {
     console.log(response);
     // alert(response["data"]["plus_code"]["compound_code"]);
     let code = "";
-    response["data"]["results"].forEach(result => {
+    response["data"]["results"].forEach((result) => {
       // console.log(result);
-      result.address_components.forEach(component => {
-        if(component?.types.includes("postal_code")) {
-          code = component.long_name
+      result.address_components.forEach((component) => {
+        if (component?.types.includes("postal_code")) {
+          code = component.long_name;
         }
-      })
+      });
     });
     console.log(code);
 
     this.setState({
       location: {
         address: response["data"]["plus_code"]["compound_code"],
-        postalCode: code
+        zip_code: code,
       },
     });
   }
 
-  handleSearch() {
-    console.log(this.state);
-    console.log(data);
+  onClickSearch() {
+    objectGetServiceComponent
+      .getSearchResponse()
+      .then((response) => this.handleRetriveHousesSuccessfully(response))
+      .catch((error) => this.handleRetriveHousesError(error));
+  }
 
-    let filteredData = data;
-    if(this.state.location.postalCode !== "") {
-      filteredData = filteredData.filter(d => d.postalCode === this.state.location.postalCode);
+  exportData(data) {
+    const jsonString = `data:text/json;chatset=utf-8,${encodeURIComponent(
+      JSON.stringify(data)
+    )}`;
+    const link = document.createElement("a");
+    link.href = jsonString;
+    link.download = "searchdata.json";
+    link.click();
+  }
+
+  handleRetriveHousesSuccessfully(response) {
+    message.success("Fetch houses successful!");
+    this.setState({
+      loading: false,
+    });
+    // console.log("this.state is:", this.state);
+    // this.exportData(JSON.parse(response.data));
+
+    let filteredData = JSON.parse(response.data);
+    console.log("filtered data initial:", filteredData);
+
+    if (this.state.location.zip_code !== "") {
+      filteredData = filteredData.filter(
+        (d) => d.zip_code === this.state.location.zip_code
+      );
     }
-    if(this.state.price !== "") {
-      filteredData = filteredData.filter(d => d.price === `$${this.state.price}/month`);
+    if (this.state.rent !== "") {
+      filteredData = filteredData.filter(
+        (d) => d.rent === `$${this.state.rent}/month`
+      );
     }
-    if(this.state.beds !== "") {
-      filteredData = filteredData.filter(d => d.beds ===  `${this.state.beds} Beds`);
+    if (this.state.beds !== "") {
+      filteredData = filteredData.filter(
+        (d) => d.beds === `${this.state.beds} Beds`
+      );
     }
-    if(this.state.pets !== "") {
-      filteredData = filteredData.filter(d => d.pets ===  (this.state.pets === "no" ? "No Pets" : "Allow Pets"));
+    if (this.state.pets !== "") {
+      filteredData = filteredData.filter(
+        (d) => d.pets === (this.state.pets === "no" ? "No Pets" : "Allow Pets")
+      );
     }
+    if (this.state.status === "1") {
+      filteredData = filteredData.filter((d) => d.status === this.state.status);
+    }
+
     console.log("filteredData", filteredData);
     this.setState({
-      filteredListing: filteredData
-    })
+      filteredListing: filteredData,
+    });
+  }
+
+  handleRetriveHousesError(error) {
+    message.error("Fetch search houses failed.");
+    this.setState({
+      loading: false,
+    });
+    console.error(error);
   }
 
   render() {
@@ -149,16 +194,12 @@ class SearchComponent extends Component {
             </FloatLabel>
           </Col>
           <Col span={4}>
-            <FloatLabel
-              label="Price Range"
-              name="price"
-              value={this.state.price}
-            >
+            <FloatLabel label="rent Range" name="rent" value={this.state.rent}>
               <Select
                 showSearch
                 style={{ width: "100%" }}
-                onChange={(value) => this.setState({ price: value })}
-                value={this.state.price}
+                onChange={(value) => this.setState({ rent: value })}
+                value={this.state.rent}
                 // mode="tags"
               >
                 <Option value=""></Option>
@@ -190,21 +231,23 @@ class SearchComponent extends Component {
             </FloatLabel>
           </Col>
           <Col span={4}>
-            <FloatLabel label="Pets" name="pets" value={this.state.pets}>
+            <FloatLabel label="Status" name="status" value={this.state.status}>
               <Select
                 showSearch
                 style={{ width: "100%" }}
-                onChange={(value) => this.setState({ pets: value })}
-                value={this.state.pets}
+                onChange={(value) => this.setState({ status: value })}
+                value={this.state.status}
                 // mode="tags"
               >
-                <Option value="yes">Yes</Option>
-                <Option value="no">No</Option>
+                <Option value="1">Available</Option>
+                <Option value="2">All</Option>
               </Select>
             </FloatLabel>
           </Col>
           <Col span={4}>
-            <Button type="primary" onClick={() => this.handleSearch()}>Search</Button>
+            <Button type="primary" onClick={() => this.onClickSearch()}>
+              Search
+            </Button>
           </Col>
         </Row>
 
@@ -235,23 +278,21 @@ class SearchComponent extends Component {
                     cover={<img alt="example" src={House} />}
                     actions={[
                       <span>
-                        <i class="fa-solid fa-bed" /> {listing.beds} Beds
+                        <i className="fa-solid fa-bed" /> {listing.beds} Beds
                       </span>,
                       <span>
-                        <i class="fa-solid fa-bath" /> {listing.bathrooms} Baths
+                        <i className="fa-solid fa-bath" /> {listing.baths} Baths
                       </span>,
                       <span>
-                        <i class="fa-solid fa-paw" /> {listing.pets}
+                        <i className="fa-solid fa-paw" />{" "}
+                        {listing.status === "1" ? "Available" : "Rented"}
                       </span>,
                     ]}
                   >
                     <Title level={4} style={{ color: "#1677ff" }}>
-                      {listing.price}
+                      {listing.rent + "$/month"}
                     </Title>
-                    <Meta
-                      title={listing.city}
-                      description={listing.location}
-                    />
+                    <Meta title={listing.city} description={listing.address} />
                   </Card>
                 </Col>
               ))}
