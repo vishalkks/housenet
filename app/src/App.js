@@ -48,9 +48,12 @@ const App = () => (
         <Route
           path="/logout"
           element={
-            <AuthenticatedRoute>
+            // AuthenticatedRoute needs to be removed because when we logout, we are not an authenticated user 
+            // therefore we are not an authenticated user anymore
+            
+            // <AuthenticatedRoute>
               <LogoutComponent />
-            </AuthenticatedRoute>
+            // </AuthenticatedRoute>
           }
         />
         <Route path="*" element={<ErrorComponent />} />
