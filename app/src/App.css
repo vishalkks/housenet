@@ -1,11 +1,10 @@
 .footer {
-  position: absolute;
-  text-align: center;
-  bottom: 0%;
-  width: 100%;
-  height: 40px;
   font-size: medium;
   font-style: italic;
+  position: absolute;
+  text-align: center;
+  width: 100%;
+  height: 40px;
 }
 
 .css-ant-statistic-title {
