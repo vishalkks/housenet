@@ -132,7 +132,11 @@ class SearchComponent extends Component {
                 className="float-input"
                 value={
                   this.state.location.address
-                } /*onChange={e => setFirstName(e.target.value)} */
+                } 
+                onChange={e => this.setState((prevState, props) => ({location: {
+                  address: e.target.value,
+                  postalCode: e.target.value
+                }}))}
               />
             </FloatLabel>
           </Col>
