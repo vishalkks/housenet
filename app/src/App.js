@@ -19,6 +19,7 @@ import "./bootstrap.css";
 
 const LoginComponentWithNavigation = withNavigation(Signin);
 const HeaderComponentWithNavigation = withNavigation(Header);
+const LogoutComponentWithNavigation = withNavigation(LogoutComponent);
 const SearchComponentWithParams = withParams(GoogleApiWrapper);
 
 const App = () => (
@@ -50,9 +51,9 @@ const App = () => (
           element={
             // AuthenticatedRoute needs to be removed because when we logout, we are not an authenticated user 
             // therefore we are not an authenticated user anymore
-            
+
             // <AuthenticatedRoute>
-              <LogoutComponent />
+              <LogoutComponentWithNavigation />
             // </AuthenticatedRoute>
           }
         />
