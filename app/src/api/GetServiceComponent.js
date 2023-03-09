@@ -11,6 +11,9 @@ class GetServiceComponent {
   getSignupResponse(values) {
     return axios.post(`${REACT_APP_URL}/api/v1/signup`, values);
   }
+  getSigninResponse(values) {
+    return axios.post(`${REACT_APP_URL}/api/v1/login`, values);
+  }
 }
 
 const objectGetServiceComponent = new GetServiceComponent();

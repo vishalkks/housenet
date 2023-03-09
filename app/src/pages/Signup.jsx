@@ -8,7 +8,6 @@ const Signup = () => {
 
   const onFinish = (values) => {
     setLoading(true);
-    // Perform registration logic here, e.g. API call to backend
     objectGetServiceComponent
       .getSignupResponse(values)
       .then((response) => {

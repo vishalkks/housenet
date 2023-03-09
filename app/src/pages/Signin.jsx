@@ -1,15 +1,15 @@
 import React, { Component } from "react";
 import { Form, Input, Button, message, Checkbox } from "antd";
-import axios from "axios";
 import { Link } from "react-router-dom";
 import Authentication from "../components/Authentication";
+import objectGetServiceComponent from "../api/GetServiceComponent";
 
 class Signin extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      username: "brian",
-      password: "123456",
+      username: "",
+      password: "",
       loading: false,
       checked: false,
       disabled: false,
@@ -21,7 +21,6 @@ class Signin extends Component {
     this.handleCheckboxChange = this.handleCheckboxChange.bind(this);
     this.handleChange = this.handleChange.bind(this);
     this.onClick = this.onClick.bind(this);
-    this.onFinish = this.onFinish.bind(this);
   }
 
   toggleDisable() {
@@ -29,39 +28,47 @@ class Signin extends Component {
   }
 
   handleCheckboxChange(event) {
-    console.log("checked = ", event.target.checked);
+    // console.log("checked = ", event.target.checked);
     this.setState({ checked: event.target.checked });
   }
 
   handleChange(event) {
-    console.log("current state = ", this.state);
+    // console.log("current state = ", this.state);
     this.setState({ [event.target.name]: event.target.value });
   }
 
   onClick() {
-    if (this.state.username === "brian" && this.state.password === "123456") {
-      this.setState({ hasLoginSuccess: true, hasLoginFailed: false });
-      Authentication.registerSuccessEntry(
-        this.state.username,
-        this.state.password
-      );
-      this.props.navigate(`/search/${this.state.username}`); // React v6 navigation
-    } else {
-      this.setState({ hasLoginFailed: true, hasLoginSuccess: false });
-    }
-  }
-
-  onFinish(values) {
     this.setState({ loading: true });
-    axios
-      .post("/api/register", values)
-      .then(() => {
-        message.success("Registration successful!");
-        this.setState({ loading: false });
+    console.log("login finish");
+    objectGetServiceComponent
+      .getSigninResponse({
+        username: this.state.username,
+        password: this.state.password,
+      })
+      .then((response) => {
+        message.success("Login successful!");
+        this.setState({
+          hasLoginSuccess: true,
+          hasLoginFailed: false,
+          loading: false,
+          username: response.data.username,
+          password: response.data.password,
+        });
+        Authentication.registerSuccessEntry(
+          this.state.username,
+          this.state.password
+        );
+        this.props.navigate(`/search/${this.state.username}`); // React v6 navigation
       })
       .catch((error) => {
-        message.error("Registration failed. Please try again.");
-        this.setState({ loading: false });
+        message.error(
+          "Log-in failed. Please check your username and password."
+        );
+        this.setState({
+          hasLoginFailed: true,
+          hasLoginSuccess: false,
+          loading: false,
+        });
         console.error(error);
       });
   }
@@ -74,7 +81,7 @@ class Signin extends Component {
           style={{ maxWidth: 400, margin: "auto", marginTop: 100 }}
         >
           <h1>Sign in</h1>
-          <Form layout="vertical" onFinish={this.onFinish}>
+          <Form layout="vertical">
             <Form.Item
               label="Username"
               name="username"
