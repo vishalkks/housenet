@@ -11,7 +11,10 @@ from dotenv import load_dotenv
 import os
 import argparse
 import sys
+from flask_cors import CORS, cross_origin
+
 app = Flask(__name__, static_folder="../build",  static_url_path='/')
+CORS(app)
 
 def create_app():
         #app = Flask(__name__, static_folder="static/dist", template_folder="static")

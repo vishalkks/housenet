@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Form, Input, Button, message } from "antd";
-import axios from "axios";
+import objectGetServiceComponent from "../api/GetServiceComponent";
 
 const Signup = () => {
   const [form] = Form.useForm();
@@ -9,12 +9,12 @@ const Signup = () => {
   const onFinish = (values) => {
     setLoading(true);
     // Perform registration logic here, e.g. API call to backend
-    axios
-      .post("/api/v1/sign-up", values)
-      .then(() => {
-        message.success("Registration successful!");
+    objectGetServiceComponent
+      .getSignupResponse(values)
+      .then((response) => {
+        message.success("Registration successful! Please go to log-in.");
         setLoading(false);
-        // history.push("/");
+        // console.log(response.data);
       })
       .catch((error) => {
         message.error("Registration failed. Please try again.");
