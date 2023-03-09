@@ -130,9 +130,7 @@ class SearchComponent extends Component {
       );
     }
     if (this.state.rent !== "") {
-      filteredData = filteredData.filter(
-        (d) => d.rent === `$${this.state.rent}/month`
-      );
+      filteredData = filteredData.filter((d) => d.rent <= this.state.rent);
     }
     if (this.state.beds !== "") {
       filteredData = filteredData.filter(
@@ -203,12 +201,13 @@ class SearchComponent extends Component {
                 // mode="tags"
               >
                 <Option value=""></Option>
-                <Option value="1000">$1000</Option>
                 <Option value="2000">$2000</Option>
                 <Option value="3000">$3000</Option>
                 <Option value="4000">$4000</Option>
                 <Option value="5000">$5000</Option>
-                <Option value="6000">$6000</Option>
+                <Option value="7000">$7000</Option>
+                <Option value="9000">$9000</Option>
+                <Option value="10000000">Unlimited</Option>
               </Select>
             </FloatLabel>
           </Col>
