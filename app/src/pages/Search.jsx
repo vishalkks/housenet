@@ -239,10 +239,10 @@ class SearchComponent extends Component {
                     cover={<img alt="example" src={House} />}
                     actions={[
                       <span>
-                        <i class="fa-solid fa-bed" /> {listing.beds} Beds
+                        <i class="fa-solid fa-bed" /> {listing.beds}
                       </span>,
                       <span>
-                        <i class="fa-solid fa-bath" /> {listing.bathrooms} Baths
+                        <i class="fa-solid fa-bath" /> {listing.bathrooms}
                       </span>,
                       <span>
                         <i class="fa-solid fa-paw" /> {listing.pets}
