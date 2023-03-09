@@ -7,11 +7,11 @@ import {
   Col,
   Input,
   Select,
-  DatePicker,
   Card,
-  Avatar,
   Typography,
 } from "antd";
+import { Link } from "react-router-dom";
+
 import objectGetServiceComponent from "../api/GetServiceComponent";
 import { Map, GoogleApiWrapper, Marker } from "google-maps-react";
 import axios from "axios";
@@ -38,7 +38,7 @@ class SearchComponent extends Component {
       beds: "",
       pets: "",
       moveInDate: "",
-      filteredListing: data
+      filteredListing: data,
     };
     this.retrieveBeanService = this.retrieveBeanService.bind(this);
     this.handleRetriveBeanSuccessfully =
@@ -76,20 +76,20 @@ class SearchComponent extends Component {
     console.log(response);
     // alert(response["data"]["plus_code"]["compound_code"]);
     let code = "";
-    response["data"]["results"].forEach(result => {
+    response["data"]["results"].forEach((result) => {
       // console.log(result);
-      result.address_components.forEach(component => {
-        if(component?.types.includes("postal_code")) {
-          code = component.long_name
+      result.address_components.forEach((component) => {
+        if (component?.types.includes("postal_code")) {
+          code = component.long_name;
         }
-      })
+      });
     });
     console.log(code);
 
     this.setState({
       location: {
         address: response["data"]["plus_code"]["compound_code"],
-        postalCode: code
+        postalCode: code,
       },
     });
   }
@@ -99,22 +99,30 @@ class SearchComponent extends Component {
     console.log(data);
 
     let filteredData = data;
-    if(this.state.location.postalCode !== "") {
-      filteredData = filteredData.filter(d => d.postalCode === this.state.location.postalCode);
+    if (this.state.location.postalCode !== "") {
+      filteredData = filteredData.filter(
+        (d) => d.postalCode === this.state.location.postalCode
+      );
     }
-    if(this.state.price !== "") {
-      filteredData = filteredData.filter(d => d.price === `$${this.state.price}/month`);
+    if (this.state.price !== "") {
+      filteredData = filteredData.filter(
+        (d) => d.price === `$${this.state.price}/month`
+      );
     }
-    if(this.state.beds !== "") {
-      filteredData = filteredData.filter(d => d.beds ===  `${this.state.beds} Beds`);
+    if (this.state.beds !== "") {
+      filteredData = filteredData.filter(
+        (d) => d.beds === `${this.state.beds} Beds`
+      );
     }
-    if(this.state.pets !== "") {
-      filteredData = filteredData.filter(d => d.pets ===  (this.state.pets === "no" ? "No Pets" : "Allow Pets"));
+    if (this.state.pets !== "") {
+      filteredData = filteredData.filter(
+        (d) => d.pets === (this.state.pets === "no" ? "No Pets" : "Allow Pets")
+      );
     }
     console.log("filteredData", filteredData);
     this.setState({
-      filteredListing: filteredData
-    })
+      filteredListing: filteredData,
+    });
   }
 
   render() {
@@ -204,7 +212,9 @@ class SearchComponent extends Component {
             </FloatLabel>
           </Col>
           <Col span={4}>
-            <Button type="primary" onClick={() => this.handleSearch()}>Search</Button>
+            <Button type="primary" onClick={() => this.handleSearch()}>
+              Search
+            </Button>
           </Col>
         </Row>
 
@@ -230,29 +240,33 @@ class SearchComponent extends Component {
             <Row wrap={true}>
               {this.state.filteredListing.map((listing) => (
                 <Col span={12} className="card-col" key={listing.id}>
-                  <Card
-                    style={{ width: 300 }}
-                    cover={<img alt="example" src={House} />}
-                    actions={[
-                      <span>
-                        <i class="fa-solid fa-bed" /> {listing.beds} Beds
-                      </span>,
-                      <span>
-                        <i class="fa-solid fa-bath" /> {listing.bathrooms} Baths
-                      </span>,
-                      <span>
-                        <i class="fa-solid fa-paw" /> {listing.pets}
-                      </span>,
-                    ]}
-                  >
-                    <Title level={4} style={{ color: "#1677ff" }}>
-                      {listing.price}
-                    </Title>
-                    <Meta
-                      title={listing.city}
-                      description={listing.location}
-                    />
-                  </Card>
+                  <Link to="/detailed">
+                    <Card
+                      hoverable
+                      style={{ width: 300 }}
+                      cover={<img alt="example" src={House} />}
+                      actions={[
+                        <span>
+                          <i class="fa-solid fa-bed" /> {listing.beds} Beds
+                        </span>,
+                        <span>
+                          <i class="fa-solid fa-bath" /> {listing.bathrooms}{" "}
+                          Baths
+                        </span>,
+                        <span>
+                          <i class="fa-solid fa-paw" /> {listing.pets}
+                        </span>,
+                      ]}
+                    >
+                      <Title level={4} style={{ color: "#1677ff" }}>
+                        {listing.price}
+                      </Title>
+                      <Meta
+                        title={listing.city}
+                        description={listing.location}
+                      />
+                    </Card>
+                  </Link>
                 </Col>
               ))}
             </Row>
