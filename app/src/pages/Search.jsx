@@ -272,27 +272,34 @@ class SearchComponent extends Component {
             <Row wrap={true}>
               {this.state.filteredListing.map((listing) => (
                 <Col span={12} className="card-col" key={listing.id}>
-                  <Card
-                    style={{ width: 300 }}
-                    cover={<img alt="example" src={House} />}
-                    actions={[
-                      <span>
-                        <i className="fa-solid fa-bed" /> {listing.beds} Beds
-                      </span>,
-                      <span>
-                        <i className="fa-solid fa-bath" /> {listing.baths} Baths
-                      </span>,
-                      <span>
-                        <i className="fa-solid fa-paw" />{" "}
-                        {listing.status === "1" ? "Available" : "Rented"}
-                      </span>,
-                    ]}
-                  >
-                    <Title level={4} style={{ color: "#1677ff" }}>
-                      {listing.rent + "$/month"}
-                    </Title>
-                    <Meta title={listing.city} description={listing.address} />
-                  </Card>
+                  <Link to="/detailed">
+                    <Card
+                      hoverable
+                      style={{ width: 300 }}
+                      cover={<img alt="example" src={House} />}
+                      actions={[
+                        <span>
+                          <i className="fa-solid fa-bed" /> {listing.beds} Beds
+                        </span>,
+                        <span>
+                          <i className="fa-solid fa-bath" /> {listing.baths}{" "}
+                          Baths
+                        </span>,
+                        <span>
+                          <i className="fa-solid fa-paw" />{" "}
+                          {listing.status === "1" ? "Available" : "Rented"}
+                        </span>,
+                      ]}
+                    >
+                      <Title level={4} style={{ color: "#1677ff" }}>
+                        {listing.rent + "$/month"}
+                      </Title>
+                      <Meta
+                        title={listing.city}
+                        description={listing.address}
+                      />
+                    </Card>
+                  </Link>
                 </Col>
               ))}
             </Row>
