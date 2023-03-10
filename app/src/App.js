@@ -37,7 +37,7 @@ const App = () => (
         <Route path="/sign-up" element={<Signup />} />
         <Route path="/sign-in" element={<LoginComponentWithNavigation />} />
         <Route
-          path="/search/:name"
+          path="/search"
           element={
             <AuthenticatedRoute>
               <SearchComponentWithParams />

@@ -59,6 +59,7 @@ class Signin extends Component {
           this.state.password
         );
         this.props.navigate(`/search/${this.state.username}`); // React v6 navigation
+        this.props.navigate("/search"); // React v6 navigation
       })
       .catch((error) => {
         message.error(
