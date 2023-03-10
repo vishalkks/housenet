@@ -17,7 +17,6 @@ import { Map, GoogleApiWrapper, Marker } from "google-maps-react";
 import axios from "axios";
 import "../searchbar.css";
 import FloatLabel from "./FloatLabel";
-import House from "../static/1.jpg";
 import searchdata from "../data/searchdata.json";
 
 const { Option } = Select;
@@ -177,7 +176,11 @@ class SearchComponent extends Component {
                 className="float-input"
                 value={
                   this.state.location.address
-                } /*onChange={e => setFirstName(e.target.value)} */
+                } 
+                onChange={e => this.setState((prevState, props) => ({location: {
+                  address: e.target.value,
+                  postalCode: e.target.value
+                }}))}
               />
             </FloatLabel>
           </Col>
@@ -278,30 +281,26 @@ class SearchComponent extends Component {
                     <Card
                       hoverable
                       style={{ width: 300 }}
-                      cover={<img alt="example" src={House} />}
+                      cover={<img alt={listing.city} width={300} height={184} src={require('../static/'+listing.id+'.jpg')} />}
                       actions={[
                         <span>
-                          <i className="fa-solid fa-bed" /> {listing.beds} Beds
+                          <i class="fa-solid fa-bed" /> {listing.beds}
                         </span>,
                         <span>
-                          <i className="fa-solid fa-bath" /> {listing.baths}{" "}
-                          Baths
+                          <i class="fa-solid fa-bath" /> {listing.baths}
                         </span>,
                         <span>
                           <i className="fa-solid fa-paw" />{" "}
                           {listing.status === "1" ? "Available" : "Rented"}
                         </span>,
                       ]}
-                    >
+                      >
                       <Title level={4} style={{ color: "#1677ff" }}>
                         {listing.rent + "$/month"}
                       </Title>
-                      <Meta
-                        title={listing.city}
-                        description={listing.address}
-                      />
+                      <Meta title={listing.city} description={listing.address} />
                     </Card>
-                  </Link>
+                    </Link>
                 </Col>
               ))}
             </Row>
