@@ -17,7 +17,6 @@ import { Map, GoogleApiWrapper, Marker } from "google-maps-react";
 import axios from "axios";
 import "../searchbar.css";
 import FloatLabel from "./FloatLabel";
-import House from "../static/1.jpg";
 import data from "../data/hardcode.json";
 
 const { Option } = Select;
@@ -236,7 +235,7 @@ class SearchComponent extends Component {
                 <Col span={12} className="card-col" key={listing.id}>
                   <Card
                     style={{ width: 300 }}
-                    cover={<img alt="example" src={House} />}
+                    cover={<img alt={listing.city} width={300} height={184} src={require('../static/'+listing.id+'.jpg')} />}
                     actions={[
                       <span>
                         <i class="fa-solid fa-bed" /> {listing.beds}
