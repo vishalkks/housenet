@@ -1,6 +1,6 @@
 [
   {
-    "id": 42,
+    "id": 1,
     "landlord_id": null,
     "tenant_id": null,
     "address": "5759, Lambard Road, UC Berkeley.CA",
@@ -16,7 +16,7 @@
     "other_information": null
   },
   {
-    "id": 43,
+    "id": 2,
     "landlord_id": null,
     "tenant_id": null,
     "address": "5759, Lambard Road, UC Berkeley.CA",
@@ -32,7 +32,7 @@
     "other_information": null
   },
   {
-    "id": 44,
+    "id": 3,
     "landlord_id": null,
     "tenant_id": null,
     "address": "5759, Lambard Road, Campus.CA",
@@ -48,7 +48,7 @@
     "other_information": null
   },
   {
-    "id": 45,
+    "id": 4,
     "landlord_id": null,
     "tenant_id": null,
     "address": "1235, Lambard Road, UC Berkeley.CA",
@@ -64,7 +64,7 @@
     "other_information": null
   },
   {
-    "id": 46,
+    "id": 5,
     "landlord_id": null,
     "tenant_id": null,
     "address": "9988, Lambard Road, UC Berkeley.CA",
@@ -80,7 +80,7 @@
     "other_information": null
   },
   {
-    "id": 50,
+    "id": 6,
     "landlord_id": 42,
     "tenant_id": null,
     "address": "11825",
@@ -96,7 +96,7 @@
     "other_information": ""
   },
   {
-    "id": 52,
+    "id": 7,
     "landlord_id": 43,
     "tenant_id": null,
     "address": "12345",
@@ -112,7 +112,7 @@
     "other_information": ""
   },
   {
-    "id": 53,
+    "id": 8,
     "landlord_id": 43,
     "tenant_id": null,
     "address": "54321",
@@ -128,7 +128,7 @@
     "other_information": ""
   },
   {
-    "id": 54,
+    "id": 1,
     "landlord_id": 43,
     "tenant_id": null,
     "address": "78999",
@@ -144,7 +144,7 @@
     "other_information": ""
   },
   {
-    "id": 55,
+    "id": 2,
     "landlord_id": 43,
     "tenant_id": null,
     "address": "7510",

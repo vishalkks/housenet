@@ -282,17 +282,10 @@ class SearchComponent extends Component {
                     cover={<img alt={listing.city} width={300} height={184} src={require('../static/'+listing.id+'.jpg')} />}
                     actions={[
                       <span>
-<<<<<<< HEAD
                         <i class="fa-solid fa-bed" /> {listing.beds}
                       </span>,
                       <span>
-                        <i class="fa-solid fa-bath" /> {listing.bathrooms}
-=======
-                        <i className="fa-solid fa-bed" /> {listing.beds} Beds
-                      </span>,
-                      <span>
-                        <i className="fa-solid fa-bath" /> {listing.baths} Baths
->>>>>>> origin/main
+                        <i class="fa-solid fa-bath" /> {listing.baths}
                       </span>,
                       <span>
                         <i className="fa-solid fa-paw" />{" "}
