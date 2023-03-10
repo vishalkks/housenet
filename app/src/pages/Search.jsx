@@ -277,27 +277,30 @@ class SearchComponent extends Component {
             <Row wrap={true}>
               {this.state.filteredListing.map((listing) => (
                 <Col span={12} className="card-col" key={listing.id}>
-                  <Card
-                    style={{ width: 300 }}
-                    cover={<img alt={listing.city} width={300} height={184} src={require('../static/'+listing.id+'.jpg')} />}
-                    actions={[
-                      <span>
-                        <i class="fa-solid fa-bed" /> {listing.beds}
-                      </span>,
-                      <span>
-                        <i class="fa-solid fa-bath" /> {listing.baths}
-                      </span>,
-                      <span>
-                        <i className="fa-solid fa-paw" />{" "}
-                        {listing.status === "1" ? "Available" : "Rented"}
-                      </span>,
-                    ]}
-                  >
-                    <Title level={4} style={{ color: "#1677ff" }}>
-                      {listing.rent + "$/month"}
-                    </Title>
-                    <Meta title={listing.city} description={listing.address} />
-                  </Card>
+                  <Link to="/detailed">
+                    <Card
+                      hoverable
+                      style={{ width: 300 }}
+                      cover={<img alt={listing.city} width={300} height={184} src={require('../static/'+listing.id+'.jpg')} />}
+                      actions={[
+                        <span>
+                          <i class="fa-solid fa-bed" /> {listing.beds}
+                        </span>,
+                        <span>
+                          <i class="fa-solid fa-bath" /> {listing.baths}
+                        </span>,
+                        <span>
+                          <i className="fa-solid fa-paw" />{" "}
+                          {listing.status === "1" ? "Available" : "Rented"}
+                        </span>,
+                      ]}
+                      >
+                      <Title level={4} style={{ color: "#1677ff" }}>
+                        {listing.rent + "$/month"}
+                      </Title>
+                      <Meta title={listing.city} description={listing.address} />
+                    </Card>
+                    </Link>
                 </Col>
               ))}
             </Row>
