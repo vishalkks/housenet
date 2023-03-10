@@ -59,11 +59,8 @@ class Header extends Component {
                 </Menu.Item>
               )}
 
-              
               <Menu.Item key="wishlists">
-                <Link to="/detailed" style={{ textDecoration: "none" }}>
-                  <b>My Wishlists</b>
-                </Link>
+                <b>My Wishlists</b>
               </Menu.Item>
 
               {isUserLogin && (
