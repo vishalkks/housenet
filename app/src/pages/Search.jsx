@@ -10,6 +10,8 @@ import {
   Card,
   Typography,
 } from "antd";
+import { Link } from "react-router-dom";
+
 import objectGetServiceComponent from "../api/GetServiceComponent";
 import { Map, GoogleApiWrapper, Marker } from "google-maps-react";
 import axios from "axios";

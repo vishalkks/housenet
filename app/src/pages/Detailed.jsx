@@ -21,6 +21,9 @@ const DetailedPage = ({ google }) => {
     other_information:
       "The largest neighborhood in Downtown San Diego, East Village encompasses 130 blocks with a slew of restaurants, boutiques, bars, museums, hotels, music venues, and art galleries. As a resident of this area, you will be in the center of everything. Located east of the bustling Gaslamp Quarter and southeast of historic Cortez Hill, this neighborhood is famous for containing Petco Park, the home field of the San Diego Padres. East Village also borders the sprawling Balboa Park to the north. ",
   });
+  
+  // Used for http request
+  let selectedCardId = localStorage.getItem("selectedCard");
 
   return (
     <Row>
