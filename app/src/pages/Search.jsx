@@ -27,7 +27,6 @@ class SearchComponent extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      filteredListing: searchdata,
       loading: true,
       location: {
         address: "",
@@ -39,6 +38,7 @@ class SearchComponent extends Component {
       status: "2",
       moveInDate: "",
     };
+    this.filteredListing = searchdata;
     this.retrieveBeanService = this.retrieveBeanService.bind(this);
     this.handleRetriveBeanSuccessfully =
       this.handleRetriveBeanSuccessfully.bind(this);
@@ -123,7 +123,8 @@ class SearchComponent extends Component {
     // this.exportData(JSON.parse(response.data));
 
     let filteredData = JSON.parse(response.data);
-    console.log("filtered data initial:", filteredData);
+    console.log("fetch data initial:", filteredData);
+    console.log("filteredListing initial:", this.filteredListing);
 
     if (this.state.location.zip_code !== "") {
       filteredData = filteredData.filter(
@@ -148,9 +149,8 @@ class SearchComponent extends Component {
     }
 
     console.log("filteredData", filteredData);
-    this.setState({
-      filteredListing: filteredData,
-    });
+    this.filteredListing = filteredData;
+    console.log("filteredListing", this.filteredListing);
   }
 
   handleRetriveHousesError(error) {
@@ -174,13 +174,15 @@ class SearchComponent extends Component {
             >
               <Input
                 className="float-input"
-                value={
-                  this.state.location.address
-                } 
-                onChange={e => this.setState((prevState, props) => ({location: {
-                  address: e.target.value,
-                  postalCode: e.target.value
-                }}))}
+                value={this.state.location.address}
+                onChange={(e) =>
+                  this.setState((prevState, props) => ({
+                    location: {
+                      address: e.target.value,
+                      postalCode: e.target.value,
+                    },
+                  }))
+                }
               />
             </FloatLabel>
           </Col>
@@ -275,13 +277,22 @@ class SearchComponent extends Component {
           </Col>
           <Col span={12} className="col">
             <Row wrap={true}>
-              {this.state.filteredListing.map((listing) => (
+              {this.filteredListing.map((listing) => (
                 <Col span={12} className="card-col" key={listing.id}>
                   <Link to="/detailed">
                     <Card
                       hoverable
                       style={{ width: 300 }}
-                      cover={<img alt={listing.city} width={300} height={184} src={require('../static/'+listing.id+'.jpg')} />}
+                      cover={
+                        <img
+                          alt={listing.city}
+                          width={300}
+                          height={184}
+                          src={require("../static/" +
+                            ((listing.id % 10) + 1) +
+                            ".jpg")}
+                        />
+                      }
                       actions={[
                         <span>
                           <i class="fa-solid fa-bed" /> {listing.beds}
@@ -294,13 +305,16 @@ class SearchComponent extends Component {
                           {listing.status === "1" ? "Available" : "Rented"}
                         </span>,
                       ]}
-                      >
+                    >
                       <Title level={4} style={{ color: "#1677ff" }}>
                         {listing.rent + "$/month"}
                       </Title>
-                      <Meta title={listing.city} description={listing.address} />
+                      <Meta
+                        title={listing.city}
+                        description={listing.address}
+                      />
                     </Card>
-                    </Link>
+                  </Link>
                 </Col>
               ))}
             </Row>
