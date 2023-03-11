@@ -27,7 +27,6 @@ class SearchComponent extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      filteredListing: searchdata,
       loading: true,
       location: {
         address: "",
@@ -39,6 +38,7 @@ class SearchComponent extends Component {
       status: "2",
       moveInDate: "",
     };
+    this.filteredListing = searchdata;
     this.retrieveBeanService = this.retrieveBeanService.bind(this);
     this.handleRetriveBeanSuccessfully =
       this.handleRetriveBeanSuccessfully.bind(this);
@@ -123,7 +123,8 @@ class SearchComponent extends Component {
     // this.exportData(JSON.parse(response.data));
 
     let filteredData = JSON.parse(response.data);
-    console.log("filtered data initial:", filteredData);
+    console.log("fetch data initial:", filteredData);
+    console.log("filteredListing initial:", this.filteredListing);
 
     if (this.state.location.zip_code !== "") {
       filteredData = filteredData.filter(
@@ -148,9 +149,8 @@ class SearchComponent extends Component {
     }
 
     console.log("filteredData", filteredData);
-    this.setState({
-      filteredListing: filteredData,
-    });
+    this.filteredListing = filteredData;
+    console.log("filteredListing", this.filteredListing);
   }
 
   handleRetriveHousesError(error) {
@@ -277,7 +277,7 @@ class SearchComponent extends Component {
           </Col>
           <Col span={12} className="col">
             <Row wrap={true}>
-              {this.state.filteredListing.map((listing) => (
+              {this.filteredListing.map((listing) => (
                 <Col span={12} className="card-col" key={listing.id}>
                   <Link to="/detailed">
                     <Card
