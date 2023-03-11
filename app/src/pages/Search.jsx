@@ -33,7 +33,7 @@ class SearchComponent extends Component {
       },
       rent: "",
       beds: "",
-      pets: "",
+      // pets: "",
       status: "2",
       moveInDate: "",
     };
@@ -149,15 +149,13 @@ class SearchComponent extends Component {
       filteredData = filteredData.filter((d) => d.rent <= this.state.rent);
     }
     if (this.state.beds !== "") {
-      filteredData = filteredData.filter(
-        (d) => d.beds === `${this.state.beds} Beds`
-      );
+      filteredData = filteredData.filter((d) => d.beds == this.state.beds);
     }
-    if (this.state.pets !== "") {
-      filteredData = filteredData.filter(
-        (d) => d.pets === (this.state.pets === "no" ? "No Pets" : "Allow Pets")
-      );
-    }
+    // if (this.state.pets !== "") {
+    //   filteredData = filteredData.filter(
+    //     (d) => d.pets === (this.state.pets === "no" ? "No Pets" : "Allow Pets")
+    //   );
+    // }
     if (this.state.status === "1") {
       filteredData = filteredData.filter((d) => d.status === this.state.status);
     }
@@ -185,16 +183,16 @@ class SearchComponent extends Component {
             <FloatLabel
               label="Location"
               name="location"
-              value={this.state.location.address}
+              value={this.state.location.zip_code}
             >
               <Input
                 className="float-input"
-                value={this.state.location.address}
+                value={this.state.location.zip_code}
                 onChange={(e) =>
                   this.setState((prevState, props) => ({
                     location: {
                       address: e.target.value,
-                      postalCode: e.target.value,
+                      zip_code: e.target.value,
                     },
                   }))
                 }
@@ -273,7 +271,11 @@ class SearchComponent extends Component {
         </Row>
 
         <Row justify="space-between" className="row">
-          <Col span={12} className="col" style={{ height: "70vh" }}>
+          <Col
+            span={12}
+            className="map-col"
+            style={{ width: "100%", height: "70vh" }}
+          >
             <Map
               google={this.props.google}
               zoom={8}
@@ -281,7 +283,6 @@ class SearchComponent extends Component {
                 this.getGeoLocation(coord.latLng.lat(), coord.latLng.lng());
               }}
               style={{
-                width: "100%",
                 height: "100%",
                 borderRadius: "10px",
               }}
@@ -290,11 +291,11 @@ class SearchComponent extends Component {
               <Marker position={{ lat: 33.0, lng: -117.0 }} />
             </Map>
           </Col>
-          <Col span={12} className="col">
+          <Col span={12} className="listing-col">
             <Row wrap={true}>
               {this.state.filteredListing.map((listing) => (
-                <Col span={12} className="card-col" key={listing.id}>
-                  <Link to="/detailed">
+                <Col span={8} className="card-col" key={listing.id}>
+                  <Link to={`/detailed/${listing.id}`}>
                     <Card
                       hoverable
                       style={{ width: 300 }}
