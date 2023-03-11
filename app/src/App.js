@@ -45,15 +45,15 @@ const App = () => (
             </AuthenticatedRoute>
           }
         />
-        <Route path="/detailed" element={<DetailedPage />} />
+        <Route path="/detailed/:id" element={<DetailedPage />} />
         <Route
           path="/logout"
           element={
-            // AuthenticatedRoute needs to be removed because when we logout, we are not an authenticated user 
+            // AuthenticatedRoute needs to be removed because when we logout, we are not an authenticated user
             // therefore we are not an authenticated user anymore
 
             // <AuthenticatedRoute>
-              <LogoutComponentWithNavigation />
+            <LogoutComponentWithNavigation />
             // </AuthenticatedRoute>
           }
         />

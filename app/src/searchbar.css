@@ -1,18 +1,17 @@
-.searchbar{
+.searchbar {
   background: rgba(128, 128, 128, 0.08);
   margin: 15px;
 }
-
 
 .float-input {
   height: 45px;
 }
 
-.ant-select-selector{
+.ant-select-selector {
   height: 45px !important;
 }
 
-.ant-picker{
+.ant-picker {
   height: 45px;
 }
 
@@ -24,8 +23,8 @@
   margin: 16px;
 }
 
-.col {
-  max-width: 49% !important;
+.map-col {
+  max-width: 40% !important;
 }
 
 .row {
@@ -36,6 +35,6 @@
   margin-bottom: 10px;
 }
 
-.ant-card-cover{
+.ant-card-cover {
   height: 170px;
 }

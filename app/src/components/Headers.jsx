@@ -59,16 +59,6 @@ class Header extends Component {
                 </Menu.Item>
               )}
 
-              <Menu.Item key="wishlists">
-                <b>My Wishlists</b>
-              </Menu.Item>
-
-              {isUserLogin && (
-                <Menu.Item key="chathub">
-                  <b>Chathub</b>
-                </Menu.Item>
-              )}
-
               <Menu.Item key="contact">
                 <b>Contact</b>
               </Menu.Item>

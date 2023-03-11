@@ -25,6 +25,7 @@ const DetailedPage = ({ google }) => {
   // Used for http request
   let selectedCardId = localStorage.getItem("selectedCard");
 
+  
   return (
     <Row>
       <Col span={12}>
