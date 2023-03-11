@@ -11,13 +11,11 @@ import {
   Typography,
 } from "antd";
 import { Link } from "react-router-dom";
-
 import objectGetServiceComponent from "../api/GetServiceComponent";
 import { Map, GoogleApiWrapper, Marker } from "google-maps-react";
 import axios from "axios";
 import "../searchbar.css";
 import FloatLabel from "./FloatLabel";
-import searchdata from "../data/searchdata.json";
 
 const { Option } = Select;
 const { Meta } = Card;
@@ -27,6 +25,7 @@ class SearchComponent extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      filteredListing: [],
       loading: true,
       location: {
         address: "",
@@ -38,7 +37,6 @@ class SearchComponent extends Component {
       status: "2",
       moveInDate: "",
     };
-    this.filteredListing = searchdata;
     this.retrieveBeanService = this.retrieveBeanService.bind(this);
     this.handleRetriveBeanSuccessfully =
       this.handleRetriveBeanSuccessfully.bind(this);
@@ -47,6 +45,23 @@ class SearchComponent extends Component {
     this.handleRetriveHousesSuccessfully =
       this.handleRetriveHousesSuccessfully.bind(this);
     this.exportData = this.exportData.bind(this);
+    this.handleSearchHousesSuccessfully =
+      this.handleSearchHousesSuccessfully.bind(this);
+  }
+
+  async componentDidMount() {
+    objectGetServiceComponent
+      .getSearchResponse()
+      .then((response) => this.handleRetriveHousesSuccessfully(response))
+      .catch((error) => this.handleRetriveHousesError(error));
+  }
+
+  handleRetriveHousesSuccessfully(response) {
+    let filteredData = JSON.parse(response.data);
+    console.log("filtered data on mounted:", filteredData);
+    this.setState({
+      filteredListing: filteredData,
+    });
   }
 
   retrieveBeanService() {
@@ -100,7 +115,7 @@ class SearchComponent extends Component {
   onClickSearch() {
     objectGetServiceComponent
       .getSearchResponse()
-      .then((response) => this.handleRetriveHousesSuccessfully(response))
+      .then((response) => this.handleSearchHousesSuccessfully(response))
       .catch((error) => this.handleRetriveHousesError(error));
   }
 
@@ -114,7 +129,7 @@ class SearchComponent extends Component {
     link.click();
   }
 
-  handleRetriveHousesSuccessfully(response) {
+  handleSearchHousesSuccessfully(response) {
     message.success("Fetch houses successful!");
     this.setState({
       loading: false,
@@ -123,8 +138,7 @@ class SearchComponent extends Component {
     // this.exportData(JSON.parse(response.data));
 
     let filteredData = JSON.parse(response.data);
-    console.log("fetch data initial:", filteredData);
-    console.log("filteredListing initial:", this.filteredListing);
+    console.log("filtered data initial:", filteredData);
 
     if (this.state.location.zip_code !== "") {
       filteredData = filteredData.filter(
@@ -149,8 +163,9 @@ class SearchComponent extends Component {
     }
 
     console.log("filteredData", filteredData);
-    this.filteredListing = filteredData;
-    console.log("filteredListing", this.filteredListing);
+    this.setState({
+      filteredListing: filteredData,
+    });
   }
 
   handleRetriveHousesError(error) {
@@ -277,7 +292,7 @@ class SearchComponent extends Component {
           </Col>
           <Col span={12} className="col">
             <Row wrap={true}>
-              {this.filteredListing.map((listing) => (
+              {this.state.filteredListing.map((listing) => (
                 <Col span={12} className="card-col" key={listing.id}>
                   <Link to="/detailed">
                     <Card
