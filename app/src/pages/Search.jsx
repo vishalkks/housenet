@@ -174,13 +174,15 @@ class SearchComponent extends Component {
             >
               <Input
                 className="float-input"
-                value={
-                  this.state.location.address
-                } 
-                onChange={e => this.setState((prevState, props) => ({location: {
-                  address: e.target.value,
-                  postalCode: e.target.value
-                }}))}
+                value={this.state.location.address}
+                onChange={(e) =>
+                  this.setState((prevState, props) => ({
+                    location: {
+                      address: e.target.value,
+                      postalCode: e.target.value,
+                    },
+                  }))
+                }
               />
             </FloatLabel>
           </Col>
@@ -281,7 +283,16 @@ class SearchComponent extends Component {
                     <Card
                       hoverable
                       style={{ width: 300 }}
-                      cover={<img alt={listing.city} width={300} height={184} src={require('../static/'+listing.id+'.jpg')} />}
+                      cover={
+                        <img
+                          alt={listing.city}
+                          width={300}
+                          height={184}
+                          src={require("../static/" +
+                            ((listing.id % 10) + 1) +
+                            ".jpg")}
+                        />
+                      }
                       actions={[
                         <span>
                           <i class="fa-solid fa-bed" /> {listing.beds}
@@ -294,13 +305,16 @@ class SearchComponent extends Component {
                           {listing.status === "1" ? "Available" : "Rented"}
                         </span>,
                       ]}
-                      >
+                    >
                       <Title level={4} style={{ color: "#1677ff" }}>
                         {listing.rent + "$/month"}
                       </Title>
-                      <Meta title={listing.city} description={listing.address} />
+                      <Meta
+                        title={listing.city}
+                        description={listing.address}
+                      />
                     </Card>
-                    </Link>
+                  </Link>
                 </Col>
               ))}
             </Row>
