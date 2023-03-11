@@ -16,10 +16,13 @@ import Footer from "./components/Footer";
 import AuthenticatedRoute from "./components/AuthenticatedRoute";
 import "./App.css";
 import "./bootstrap.css";
+// import Contactpage from "./pages/Contactpage";
+import Contact from "./pages/Contactpage";
 
 const LoginComponentWithNavigation = withNavigation(Signin);
 const HeaderComponentWithNavigation = withNavigation(Header);
 const LogoutComponentWithNavigation = withNavigation(LogoutComponent);
+const ContactComponentWithNavigation = withNavigation(Contact);
 const SearchComponentWithParams = withParams(GoogleApiWrapper);
 
 const App = () => (
@@ -46,6 +49,7 @@ const App = () => (
           }
         />
         <Route path="/detailed/:id" element={<DetailedPage />} />
+        <Route path="/Contact" element={<ContactComponentWithNavigation />} />
         <Route
           path="/logout"
           element={
