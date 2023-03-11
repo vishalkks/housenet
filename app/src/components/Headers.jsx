@@ -59,9 +59,12 @@ class Header extends Component {
                 </Menu.Item>
               )}
 
-              <Menu.Item key="contact">
-                <b>Contact</b>
-              </Menu.Item>
+              <Menu.Item key="Contact">
+                <Link to="/Contact" style={{ textDecoration: "none" }}>
+                  <b>Contact</b>
+                </Link>
+              </Menu.Item>  
+
             </Menu>
           </Col>
 
