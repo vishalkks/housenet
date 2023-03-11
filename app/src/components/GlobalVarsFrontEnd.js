@@ -1,2 +1,2 @@
-let REACT_APP_URL = "http://127.0.0.1:8080";
+let REACT_APP_URL = "https://housenet-tdpl3k5x6q-uw.a.run.app/";
 export default REACT_APP_URL;
