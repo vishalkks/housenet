@@ -1,19 +1,21 @@
 import React, { useState } from "react";
 import { Form, Input, Button, message } from "antd";
 import objectGetServiceComponent from "../api/GetServiceComponent";
+import { useNavigate } from "react-router-dom";
 
 const Signup = () => {
   const [form] = Form.useForm();
   const [loading, setLoading] = useState(false);
+  const navigate = useNavigate();
 
   const onFinish = (values) => {
     setLoading(true);
     objectGetServiceComponent
       .getSignupResponse(values)
       .then((response) => {
-        message.success("Registration successful! Please go to log-in.");
+        message.success("Registration successful! Please sign in.");
         setLoading(false);
-        // console.log(response.data);
+        navigate("/sign-in");
       })
       .catch((error) => {
         message.error("Registration failed. Please try again.");
