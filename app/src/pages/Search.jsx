@@ -60,7 +60,6 @@ function SearchComponent(props) {
     objectGetServiceComponent
       .getSearchResponse()
       .then((response) => {
-        message.success("Fetch houses successful!");
         setListing(JSON.parse(response.data));
         setLoading(false);
       })
@@ -134,7 +133,7 @@ function SearchComponent(props) {
           </FloatLabel>
         </Col>
         <Col span={4}>
-          <FloatLabel label="Rent Range" name="rent" value={rent}>
+          <FloatLabel label="Rent Range (<=)" name="rent" value={rent}>
             <Select
               showSearch
               style={{ width: "100%" }}
@@ -191,7 +190,7 @@ function SearchComponent(props) {
       </Row>
 
       <Row justify="space-between" className="row">
-        <Col span={12} className="col" /*style={{ height: "75vh" }}*/>
+        <Col span={12} className="col"  style={{ minHeight: "75vh" }}>
           <Map
             google={props.google}
             zoom={8}
@@ -210,7 +209,7 @@ function SearchComponent(props) {
         </Col>
         <Col span={12} className="col">
           <Row wrap={true}>
-            {filteredListing.map((listing, idx) => (
+            {filteredListing.length > 0 ? filteredListing.map((listing, idx) => (
               <Col span={12} className="card-col" key={idx}>
                 <Link to={`/detailed/${listing.id}`} actions="replace" style={{textDecoration: "none"}}>
                   <Card
@@ -225,7 +224,7 @@ function SearchComponent(props) {
                         <i className="fa-solid fa-bath" /> {listing.baths}
                       </span>,
                       <span>
-                        <i className="fa-solid fa-paw" />{" "}
+                        <i className="fa-solid fa-house" />{" "}
                         {listing.status === "1" ? "Available" : "Rented"}
                       </span>,
                     ]}
@@ -237,7 +236,10 @@ function SearchComponent(props) {
                   </Card>
                   </Link>
               </Col>
-            ))}
+            )) : <Row type="flex" justify="center" align="middle" style={{height: "75vh", width: "100%"}}>
+                    <Title>Oops, no listing found!!!</Title>
+                  </Row>
+             }
           </Row>
         </Col>
       </Row>
