@@ -51,7 +51,7 @@ function SearchComponent(props) {
     });
 
     // updates address
-    setAddress(response["data"]["plus_code"]["compound_code"]);
+    setAddress(response?.data?.results[0]?.formatted_address);
     // updates postal code
     setPostalCode(code);
   }
@@ -212,7 +212,7 @@ function SearchComponent(props) {
           <Row wrap={true}>
             {filteredListing.map((listing, idx) => (
               <Col span={12} className="card-col" key={idx}>
-                <Link to="/detailed" style={{textDecoration: "none"}}>
+                <Link to={`/detailed/${listing.id}`} actions="replace" style={{textDecoration: "none"}}>
                   <Card
                     hoverable
                     style={{ width: 300 }}
