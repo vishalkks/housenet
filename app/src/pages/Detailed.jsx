@@ -106,14 +106,8 @@ const DetailedPage = ({ google }) => {
             </div>
           </div>
 
-          <div className="buttons">
-            {/* <Space wrap size="large"> */}
-            <Button style={{ margin: "0" }} type="primary">
-              Message the Landlord
-            </Button>
-            <Button type="primary">Add to Wishlist</Button>
-            {/* </Space> */}
-          </div>
+          <br />
+          
           <div
             className="rental-location"
             style={{
