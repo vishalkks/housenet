@@ -1,3 +1,12 @@
+/*
+ * Filename: Logout.jsx
+ * 
+ * This page gets loaded when the user logs out.
+ * It also informs the user that they have been logged out.
+ * A "sign-in again" button is also displayed if the user wants to sign-in again. 
+ * 
+ */
+
 import React from "react";
 import { Component } from "react";
 import { Typography, Button, Row } from 'antd';

@@ -1,5 +1,13 @@
+/*
+ * Filename: Search.jsx
+ * 
+ * This file defines map functionality, Search bar, and all the individual listings. 
+ * The map is displayed using geolocation API that fetches address based on latitude and longitude.
+ * Search bar filters the data based on Location (Postal Code, Rent in ($), Number of Beds, and Status (Available and All))
+ * Individual listing shows listing which is fetched using the API. 
+ * 
+ */
 import React from "react";
-import { Component } from "react";
 import {
   Button,
   message,
@@ -37,11 +45,12 @@ function SearchComponent(props) {
   const [status, setStatus] = useState("");
   const [moveInDate, setmoveInDate] = useState("");
 
-  // fetches address using latitude and longitude by using geolocation API
+  // Fetches address using latitude and longitude by using geolocation API which is a Google Map API.
+  // Sets the postal code using the address that was fecthed.
   const getGeoLocation = async (latitude, longitude) => {
     const response = await axios.get(`https://maps.googleapis.com/maps/api/geocode/json?latlng=${latitude},${longitude}&key=AIzaSyB-vvXcp3O6oPDD_Lgj9Hk4cNxnsdVhx90`);
     console.log(response);
-    let code = "";
+    let code = ""; 
     response["data"]["results"].forEach((result) => {
       result.address_components.forEach((component) => {
         if (component?.types.includes("postal_code")) {
@@ -50,12 +59,15 @@ function SearchComponent(props) {
       });
     });
 
-    // updates address
+    // Updates address
     setAddress(response?.data?.results[0]?.formatted_address);
-    // updates postal code
+
+    // Updates postal code
     setPostalCode(code);
   }
 
+
+  //Retrives all the listings from the database
   async function getListing() {
     objectGetServiceComponent
       .getSearchResponse()
@@ -70,6 +82,7 @@ function SearchComponent(props) {
     getListing();
   }, [])
 
+  // Performs search based on the selected parameters such as Postal Code, Rent, Beds, and Status
   const onClickSearch = (response) => {
     let filteredHouseListing = listing;
     console.log("filtered data initial:", filteredHouseListing);
@@ -98,12 +111,14 @@ function SearchComponent(props) {
     setFilteredListing(filteredHouseListing);
   }
 
+  //Catches an Error when the House API fails
   const getHouseListingError = (error) => {
     message.error("Fetch search houses failed.");
     setLoading(false);
     console.error(error);
   }
 
+  //Updates the Address and the postal code when the address changes
   const handleLocationChange = (e) => {
     setAddress(e?.target?.value);
     setPostalCode(e?.target?.value);
@@ -111,6 +126,7 @@ function SearchComponent(props) {
 
   return (
     <>
+      {/* Search Bar Options: Location, Move-in date, Rent, Beds, and Status */}
       <Row justify="center" className="searchbar">
         <Col span={4}>
           <FloatLabel label="Location" name="location" value={address}>
@@ -188,7 +204,8 @@ function SearchComponent(props) {
           </Button>
         </Col>
       </Row>
-
+      
+      {/* Map Functionality: Displays Map and the initial marker */}
       <Row justify="space-between" className="row">
         <Col span={12} className="col"  style={{ minHeight: "75vh" }}>
           <Map
@@ -207,6 +224,8 @@ function SearchComponent(props) {
             <Marker position={{ lat: 33.0, lng: -117.0 }} />
           </Map>
         </Col>
+
+        {/* Individual Listing: Displays individual listings */}
         <Col span={12} className="col">
           <Row wrap={true}>
             {filteredListing.length > 0 ? filteredListing.map((listing, idx) => (
@@ -247,7 +266,6 @@ function SearchComponent(props) {
   );
 }
 
-// export default SearchComponent;
 export default GoogleApiWrapper({
   apiKey: "AIzaSyB-vvXcp3O6oPDD_Lgj9Hk4cNxnsdVhx90",
 })(SearchComponent);
