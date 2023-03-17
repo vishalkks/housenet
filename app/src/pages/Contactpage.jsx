@@ -1,3 +1,10 @@
+/*
+ * Filename: Contactpage.jsx
+ * 
+ * This page provides basic contact information to the user such as Address, Email Address, and Phone Number.
+ * 
+ */
+
 import React from "react";
 import { Typography, Row, Col } from 'antd';
 const { Title } = Typography;
