@@ -254,6 +254,7 @@ function SearchComponent(props) {
                     <Meta title={listing.city} description={listing.address} />
                   </Card>
                   </Link>
+                  {/* . */}
               </Col>
             )) : <Row type="flex" justify="center" align="middle" style={{height: "75vh", width: "100%"}}>
                     <Title>Oops, no listing found!!!</Title>
